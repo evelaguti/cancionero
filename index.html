@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancionero de Boleros · Ukelele</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --vinilo: #1B1310;
+    --vino-oscuro: #2B1218;
+    --vino: #5C1A25;
+    --oro-viejo: #C9A227;
+    --oro-claro: #E7CB6E;
+    --azul-llanto: #6C8CA3;
+    --azul-claro: #9CBBCB;
+    --rosa-suave: #B97B84;
+    --rosa-claro: #D7A3AA;
+    --lila-nostalgia: #8B7EA8;
+    --lila-claro: #B0A5C9;
+    --verde-uke: #7FA88B;
+    --verde-claro: #A8C9AE;
+    --alerta: #C97A5C;
+    --marfil: #EFE3CE;
+    --marfil-tenue: rgba(239,227,206,0.58);
+    --sombra: rgba(0,0,0,0.4);
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Work Sans', Helvetica, Arial, sans-serif;
+    --font-mono: 'Space Mono', 'Courier New', monospace;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html, body{
+    margin:0;
+    padding:0;
+    background: var(--vinilo);
+    color: var(--marfil);
+    font-family: var(--font-body);
+  }
+
+  body{
+    background-image:
+      radial-gradient(ellipse at 20% -10%, rgba(92,26,37,0.55), transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(92,26,37,0.35), transparent 45%),
+      repeating-linear-gradient(115deg, rgba(239,227,206,0.015) 0px, rgba(239,227,206,0.015) 1px, transparent 1px, transparent 3px);
+    min-height:100vh;
+  }
+
+  .wrap{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 20px 90px;
+  }
+
+  /* ---------- HEADER ---------- */
+  .site-header{
+    text-align:center;
+    margin-bottom: 40px;
+  }
+
+  .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--marfil-tenue);
+    margin: 0 0 14px;
+  }
+
+  .site-title{
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(32px, 6vw, 48px);
+    line-height: 1.05;
+    margin: 0 0 10px;
+    color: var(--marfil);
+    letter-spacing: 0.3px;
+  }
+
+  .site-sub{
+    font-size: 15px;
+    color: var(--marfil-tenue);
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* ---------- TABS ---------- */
+  .tablist{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin: 36px 0 0;
+    border-bottom: 1px solid rgba(239,227,206,0.15);
+  }
+
+  .tab-btn{
+    flex: 1 1 150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--marfil-tenue);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 8px 16px;
+    cursor: pointer;
+    transition: color 0.25s ease, border-color 0.25s ease;
+    border-radius: 6px 6px 0 0;
+  }
+
+  .tab-btn svg{ width:18px; height:18px; flex-shrink:0; opacity:0.75; transition:opacity .25s ease; }
+
+  .tab-btn:hover{ color: var(--marfil); background: rgba(239,227,206,0.04); }
+
+  .tab-btn.tab-reloj.active{ color: var(--oro-claro); border-color: var(--oro-viejo); }
+  .tab-btn.tab-reloj.active svg{ opacity:1; }
+  .tab-btn.tab-llorando.active{ color: var(--azul-claro); border-color: var(--azul-llanto); }
+  .tab-btn.tab-llorando.active svg{ opacity:1; }
+
+  .tab-btn.tab-tratame.active{ color: var(--rosa-claro); border-color: var(--rosa-suave); }
+  .tab-btn.tab-tratame.active svg{ opacity:1; }
+
+  .tab-btn.tab-ayer.active{ color: var(--lila-claro); border-color: var(--lila-nostalgia); }
+  .tab-btn.tab-ayer.active svg{ opacity:1; }
+
+  .tab-btn.tab-afinador.active{ color: var(--verde-claro); border-color: var(--verde-uke); }
+  .tab-btn.tab-afinador.active svg{ opacity:1; }
+
+  .tab-btn:focus-visible{ outline: 2px solid var(--marfil); outline-offset: 2px; }
+
+  /* ---------- SONG PANEL ---------- */
+  .song-panel{ display:none; animation: fadeIn 0.45s ease; }
+  .song-panel.active{ display:block; }
+
+  @keyframes fadeIn{ from{ opacity:0; transform: translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .song-panel[data-song="reloj"]{ --accent: var(--oro-viejo); --accent-light: var(--oro-claro); }
+  .song-panel[data-song="llorando"]{ --accent: var(--azul-llanto); --accent-light: var(--azul-claro); }
+  .song-panel[data-song="tratame"]{ --accent: var(--rosa-suave); --accent-light: var(--rosa-claro); }
+  .song-panel[data-song="ayer"]{ --accent: var(--lila-nostalgia); --accent-light: var(--lila-claro); }
+  .song-panel[data-song="afinador"]{ --accent: var(--verde-uke); --accent-light: var(--verde-claro); }
+
+  .song-head{
+    position: relative;
+    padding: 38px 10px 28px;
+    text-align:center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(239,227,206,0.1);
+  }
+
+  .song-genre{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 10px;
+  }
+
+  .song-title{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(26px, 5vw, 38px);
+    margin: 0 0 14px;
+    color: var(--marfil);
+  }
+
+  .tono-badge{
+    display:inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 5px 16px;
+    background: rgba(239,227,206,0.03);
+  }
+
+  /* clock signature (song 1) */
+  .clock-motif{ position:absolute; top:18px; right:22px; width:54px; height:54px; opacity:0.85; }
+  .clock-face{ fill:none; stroke: var(--marfil-tenue); stroke-width:1.4; }
+  .clock-tick{ stroke: var(--marfil-tenue); stroke-width:1.2; }
+  .clock-hand-hr{ stroke: var(--marfil); stroke-width:2; stroke-linecap:round; }
+  .clock-hand-min{ stroke: var(--marfil); stroke-width:1.6; stroke-linecap:round; }
+  .clock-hand-sec{
+    stroke: var(--oro-viejo); stroke-width:1;
+    stroke-linecap:round;
+    transform-origin: 27px 27px;
+    animation: stopTime 3.6s cubic-bezier(.25,.9,.3,1) 1 forwards;
+  }
+  @keyframes stopTime{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(340deg); }
+  }
+
+  /* rain / tears signature (song 2) */
+  .rain-motif{ position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+  .rain-drop{
+    position:absolute; top:-30px; width:1.5px; height:22px;
+    background: linear-gradient(to bottom, transparent, var(--azul-llanto));
+    opacity:0.35;
+    animation: fall 5.5s linear infinite;
+  }
+  @keyframes fall{
+    0%{ transform: translateY(0); opacity:0; }
+    12%{ opacity:0.4; }
+    85%{ opacity:0.25; }
+    100%{ transform: translateY(120px); opacity:0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .clock-hand-sec{ animation:none; transform:rotate(300deg); }
+    .rain-drop{ animation:none; display:none; }
+    .song-panel{ animation:none; }
+  }
+
+  /* ---------- CHORD LIBRARY ---------- */
+  .lib-section{ padding: 30px 6px 6px; }
+
+  .lib-title{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 4px;
+  }
+
+  .lib-hint{
+    font-size: 12.5px;
+    color: var(--marfil-tenue);
+    margin: 0 0 18px;
+  }
+
+  .chord-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .chord-card{
+    background: var(--vino-oscuro);
+    border: 1px solid rgba(239,227,206,0.08);
+    border-radius: 10px;
+    padding: 10px 6px 12px;
+    text-align:center;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .chord-card-name{
+    font-family: var(--font-mono);
+    font-weight:700;
+    font-size: 14px;
+    color: var(--marfil);
+    margin-bottom: 2px;
+  }
+
+  .chord-card-note{
+    font-size: 8.5px;
+    line-height: 1.25;
+    color: var(--marfil-tenue);
+    margin: 0 0 4px;
+    font-style: italic;
+  }
+
+  .chord-card svg{ width:100%; height:auto; max-width:78px; }
+
+  .chord-card.pulse{
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(239,227,206,0.03), 0 0 18px -2px var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .uke-string{ stroke: var(--marfil); stroke-width:1.3; opacity:0.4; }
+  .uke-fret{ stroke: var(--marfil); stroke-width:1.1; opacity:0.3; }
+  .uke-nut{ stroke: var(--marfil); stroke-width:3; opacity:0.85; }
+  .uke-open{ fill:none; stroke: var(--accent); stroke-width:1.6; }
+  .uke-dot{ fill: var(--accent); }
+  .uke-barre{ fill: var(--accent); opacity:0.32; }
+  .uke-dottext{ fill: var(--vinilo); font-family: var(--font-mono); font-size:9.5px; font-weight:700; text-anchor:middle; }
+  .uke-stringlabel{ fill: var(--marfil-tenue); font-family: var(--font-mono); font-size:8.5px; text-anchor:middle; }
+
+  /* ---------- LYRIC SHEET ---------- */
+  .sheet{
+    margin-top: 26px;
+    background: linear-gradient(180deg, rgba(239,227,206,0.035), rgba(239,227,206,0.015));
+    border: 1px solid rgba(239,227,206,0.09);
+    border-radius: 14px;
+    padding: 30px 22px 34px;
+  }
+
+  .progression{
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--accent-light);
+    text-align:center;
+    margin: 0 0 26px;
+    letter-spacing: 0.5px;
+  }
+  .progression .pipe{ color: var(--marfil-tenue); margin: 0 4px; }
+  .progression .dash{ color: var(--marfil-tenue); margin: 0 2px; }
+  .progression-label{
+    display:block;
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--marfil-tenue);
+    margin-bottom: 8px;
+  }
+  .progression-block{ margin-bottom: 28px; text-align:center; }
+  .progression-block:last-child{ margin-bottom:0; }
+
+  .section-label{
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight:600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(239,227,206,0.15);
+  }
+
+  .lyric-section{ margin-bottom: 30px; }
+  .lyric-section:last-child{ margin-bottom:0; }
+
+  .stanza{ margin-bottom: 20px; }
+  .stanza:last-child{ margin-bottom:0; }
+
+  .lyric-line{ margin-bottom: 11px; }
+  .lyric-line:last-child{ margin-bottom:0; }
+
+  .chord-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 6px;
+    margin-bottom: 3px;
+    min-height: 26px;
+    align-items:center;
+  }
+
+  .chord-badge{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight:700;
+    color: var(--accent-light);
+    background: rgba(239,227,206,0.04);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .chord-badge:hover{
+    background: var(--accent);
+    color: var(--vinilo);
+    transform: translateY(-1px);
+  }
+
+  .chord-badge:focus-visible{ outline: 2px solid var(--marfil); outline-offset:2px; }
+
+  .lyric-text{
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--marfil);
+  }
+
+  /* ---------- TUNER ---------- */
+  .tuner-wrap{ padding: 30px 10px 6px; text-align:center; }
+
+  .mic-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background: rgba(239,227,206,0.04);
+    border: 1px solid var(--accent);
+    color: var(--accent-light);
+    font-family: var(--font-body);
+    font-weight:600;
+    font-size: 14.5px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    cursor:pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+  .mic-btn svg{ width:20px; height:20px; }
+  .mic-btn:hover{ background: var(--accent); color: var(--vinilo); }
+  .mic-btn:active{ transform: scale(0.97); }
+  .mic-btn.listening{ background: var(--accent); color: var(--vinilo); }
+  .mic-btn:focus-visible{ outline: 2px solid var(--marfil); outline-offset:2px; }
+
+  .tuner-note-msg{
+    max-width: 420px;
+    margin: 16px auto 0;
+    font-size: 12px;
+    line-height:1.5;
+    color: var(--marfil-tenue);
+  }
+  .tuner-note-msg.error{ color: var(--alerta); }
+
+  .tuner-display{ margin-top: 34px; }
+  .tuner-display[hidden]{ display:none; }
+
+  .tuner-note-name{
+    font-family: var(--font-display);
+    font-weight:600;
+    font-size: 56px;
+    color: var(--marfil);
+    line-height:1;
+    margin-bottom: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .tuner-freq{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--marfil-tenue);
+    margin-bottom: 18px;
+  }
+
+  .tuner-gauge{ width: 220px; height: auto; margin: 0 auto; display:block; }
+  .gauge-arc{ fill:none; stroke-linecap:round; }
+  .gauge-arc-bg{ stroke: rgba(239,227,206,0.12); stroke-width:3; }
+  .gauge-arc-zone{ stroke: var(--verde-uke); stroke-width:4; }
+  .gauge-tick{ stroke: rgba(239,227,206,0.25); stroke-width:2; }
+  .gauge-tick-side{ stroke: rgba(239,227,206,0.4); }
+  .gauge-needle line{
+    stroke: var(--accent-light);
+    stroke-width:3;
+    stroke-linecap:round;
+    transition: transform 0.12s ease-out;
+  }
+  .gauge-needle{ transform-origin: 120px 118px; transform: rotate(0deg); }
+  .gauge-pivot{ fill: var(--marfil); }
+
+  .tuner-status{
+    font-family: var(--font-body);
+    font-weight:700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    margin-top: 14px;
+    color: var(--marfil-tenue);
+    transition: color 0.2s ease;
+  }
+  .tuner-status.in-tune{ color: var(--verde-claro); }
+  .tuner-status.flat{ color: var(--oro-claro); }
+  .tuner-status.sharp{ color: var(--rosa-claro); }
+
+  .tuner-cents{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--marfil-tenue);
+    margin-top: 4px;
+  }
+
+  .tuner-strings{ margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(239,227,206,0.1); text-align:left; }
+
+  .string-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 10px;
+  }
+
+  .string-btn{
+    background: var(--vino-oscuro);
+    border: 1px solid rgba(239,227,206,0.08);
+    border-radius: 10px;
+    padding: 12px 6px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .string-note{
+    font-family: var(--font-mono);
+    font-weight:700;
+    font-size: 18px;
+    color: var(--marfil);
+  }
+  .string-freq{
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--marfil-tenue);
+  }
+  .string-btn.active-string{
+    border-color: var(--accent);
+    box-shadow: 0 0 14px -3px var(--accent);
+    transform: translateY(-2px);
+  }
+  .string-btn.active-string.in-tune{
+    border-color: var(--verde-uke);
+    box-shadow: 0 0 14px -2px var(--verde-uke);
+  }
+  .string-btn.active-string.in-tune .string-note{ color: var(--verde-claro); }
+
+  @media (max-width: 480px){
+    .tuner-gauge{ width: 180px; }
+    .tuner-note-name{ font-size: 46px; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{
+    text-align:center;
+    margin-top: 50px;
+    font-size: 12px;
+    color: var(--marfil-tenue);
+  }
+
+  @media (max-width: 480px){
+    .wrap{ padding: 32px 14px 70px; }
+    .tab-btn{ font-size:12.5px; padding:12px 4px 14px; gap:6px; }
+    .tab-btn svg{ width:15px; height:15px; }
+    .sheet{ padding: 24px 14px 28px; }
+    .lyric-text{ font-size:15.5px; }
+    .clock-motif{ width:42px; height:42px; top:12px; right:14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="site-header">
+    <p class="eyebrow">Cancionero para ukelele</p>
+    <h1 class="site-title">Boleros para Cantar</h1>
+    <p class="site-sub">Letra completa, cifrado y diagramas de acordes interactivos</p>
+  </header>
+
+  <nav class="tablist" role="tablist" aria-label="Seleccionar canción">
+    <button class="tab-btn tab-reloj active" role="tab" aria-selected="true" aria-controls="panel-reloj" data-song="reloj">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      El Reloj
+    </button>
+    <button class="tab-btn tab-llorando" role="tab" aria-selected="false" aria-controls="panel-llorando" data-song="llorando">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C12 3 6 10.5 6 15a6 6 0 0 0 12 0c0-4.5-6-12-6-12z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      Déjenme si estoy llorando
+    </button>
+    <button class="tab-btn tab-tratame" role="tab" aria-selected="false" aria-controls="panel-tratame" data-song="tratame">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20s-7.2-4.4-9.8-9.1C.6 8 1.7 4.8 4.7 4C7 3.4 9.4 4.4 12 7c2.6-2.6 5-3.6 7.3-3C22.3 4.8 23.4 8 21.8 10.9 19.2 15.6 12 20 12 20z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      Trátame suavemente
+    </button>
+    <button class="tab-btn tab-ayer" role="tab" aria-selected="false" aria-controls="panel-ayer" data-song="ayer">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16v11H9l-5 3.5V6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="7.5" y1="10" x2="16.5" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="7.5" y1="13.2" x2="14" y2="13.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      Ayer preguntaron por ti
+    </button>
+    <button class="tab-btn tab-afinador" role="tab" aria-selected="false" aria-controls="panel-afinador" data-song="afinador">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="18" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c2.2 0 4 1 5.5 2.3M12 3c-2.2 0-4 1-5.5 2.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Afinador
+    </button>
+  </nav>
+
+  <!-- ============ PANEL 1: EL RELOJ ============ -->
+  <section class="song-panel active" id="panel-reloj" data-song="reloj" role="tabpanel" aria-labelledby="tab-reloj">
+    <div class="song-head">
+      <svg class="clock-motif" viewBox="0 0 54 54">
+        <circle class="clock-face" cx="27" cy="27" r="21"/>
+        <line class="clock-tick" x1="27" y1="8" x2="27" y2="11"/>
+        <line class="clock-tick" x1="27" y1="43" x2="27" y2="46"/>
+        <line class="clock-tick" x1="8" y1="27" x2="11" y2="27"/>
+        <line class="clock-tick" x1="43" y1="27" x2="46" y2="27"/>
+        <line class="clock-hand-hr" x1="27" y1="27" x2="27" y2="17"/>
+        <line class="clock-hand-min" x1="27" y1="27" x2="34" y2="27"/>
+        <line class="clock-hand-sec" x1="27" y1="27" x2="27" y2="14"/>
+        <circle cx="27" cy="27" r="1.4" fill="var(--marfil)"/>
+      </svg>
+      <p class="song-genre">Bolero</p>
+      <h2 class="song-title">El Reloj</h2>
+      <span class="tono-badge">Tono sugerido: Do Mayor (C)</span>
+    </div>
+
+    <div class="lib-section">
+      <p class="lib-title">Acordes de la canción</p>
+      <p class="lib-hint">Toca un acorde en la letra para verlo resaltado aquí abajo.</p>
+      <div class="chord-grid" data-chordgrid></div>
+    </div>
+
+    <div class="sheet" data-lyrics></div>
+  </section>
+
+  <!-- ============ PANEL 2: DÉJENME SI ESTOY LLORANDO ============ -->
+  <section class="song-panel" id="panel-llorando" data-song="llorando" role="tabpanel" aria-labelledby="tab-llorando">
+    <div class="song-head">
+      <div class="rain-motif" data-rain></div>
+      <p class="song-genre">Los Ángeles Negros</p>
+      <h2 class="song-title">Déjenme si estoy llorando</h2>
+      <span class="tono-badge">Tono sugerido: La Mayor (A)</span>
+    </div>
+
+    <div class="lib-section">
+      <p class="lib-title">Acordes de la canción</p>
+      <p class="lib-hint">Toca un acorde en la letra para verlo resaltado aquí abajo.</p>
+      <div class="chord-grid" data-chordgrid></div>
+    </div>
+
+    <div class="sheet" data-lyrics></div>
+  </section>
+
+  <!-- ============ PANEL 3: TRÁTAME SUAVEMENTE ============ -->
+  <section class="song-panel" id="panel-tratame" data-song="tratame" role="tabpanel" aria-labelledby="tab-tratame">
+    <div class="song-head">
+      <p class="song-genre">Los Ángeles Negros</p>
+      <h2 class="song-title">Trátame suavemente</h2>
+      <span class="tono-badge">Ritmo de balada suave</span>
+    </div>
+
+    <div class="lib-section">
+      <p class="lib-title">Acordes de la canción</p>
+      <p class="lib-hint">Toca un acorde en la letra para verlo resaltado aquí abajo.</p>
+      <div class="chord-grid" data-chordgrid></div>
+    </div>
+
+    <div class="sheet" data-lyrics></div>
+  </section>
+
+  <!-- ============ PANEL 4: AYER PREGUNTARON POR TI ============ -->
+  <section class="song-panel" id="panel-ayer" data-song="ayer" role="tabpanel" aria-labelledby="tab-ayer">
+    <div class="song-head">
+      <p class="song-genre">Los Ángeles Negros</p>
+      <h2 class="song-title">Ayer preguntaron por ti</h2>
+    </div>
+
+    <div class="lib-section">
+      <p class="lib-title">Acordes de la canción</p>
+      <p class="lib-hint">Toca un acorde en la letra para verlo resaltado aquí abajo.</p>
+      <div class="chord-grid" data-chordgrid></div>
+    </div>
+
+    <div class="sheet" data-lyrics></div>
+  </section>
+
+  <!-- ============ PANEL 5: AFINADOR ============ -->
+  <section class="song-panel" id="panel-afinador" data-song="afinador" role="tabpanel" aria-labelledby="tab-afinador">
+    <div class="song-head">
+      <p class="song-genre">Herramienta</p>
+      <h2 class="song-title">Afinador de Ukelele</h2>
+      <span class="tono-badge">Afinación estándar · G‑C‑E‑A</span>
+    </div>
+
+    <div class="tuner-wrap">
+      <button type="button" class="mic-btn" data-mic-btn>
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-mic-icon>
+          <rect x="9" y="2.5" width="6" height="11" rx="3" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="12" y1="18" x2="12" y2="21.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="8" y1="21.5" x2="16" y2="21.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span data-mic-label>Activar micrófono</span>
+      </button>
+      <p class="tuner-note-msg" data-mic-msg>Todo el procesamiento ocurre en tu celular; no se envía audio a ningún servidor. Si el navegador no pide permiso de micrófono, prueba abriendo este archivo con un servidor local o desde HTTPS.</p>
+
+      <div class="tuner-display" data-tuner-display hidden>
+        <div class="tuner-note-name" data-note-name>–</div>
+        <div class="tuner-freq" data-freq>0.0 Hz</div>
+
+        <svg class="tuner-gauge" viewBox="0 0 240 130" data-gauge>
+          <path class="gauge-arc gauge-arc-bg" d="M20,118 A100,100 0 0 1 220,118"></path>
+          <path class="gauge-arc gauge-arc-zone" d="M104,24.5 A100,100 0 0 1 136,24.5"></path>
+          <line class="gauge-tick" x1="120" y1="118" x2="120" y2="26"></line>
+          <line class="gauge-tick gauge-tick-side" x1="35" y1="98" x2="46" y2="83"></line>
+          <line class="gauge-tick gauge-tick-side" x1="205" y1="98" x2="194" y2="83"></line>
+          <g class="gauge-needle" data-needle>
+            <line x1="120" y1="118" x2="120" y2="32"></line>
+          </g>
+          <circle cx="120" cy="118" r="5.5" class="gauge-pivot"></circle>
+        </svg>
+
+        <div class="tuner-status" data-status>—</div>
+        <div class="tuner-cents" data-cents>0 cents</div>
+      </div>
+
+      <div class="tuner-strings">
+        <p class="lib-title">Cuerdas de referencia</p>
+        <p class="lib-hint">La cuerda más cercana a lo que detecta el micrófono se resalta automáticamente.</p>
+        <div class="string-grid" data-string-grid>
+          <div class="string-btn" data-string="G4"><span class="string-note">G</span><span class="string-freq">392.0 Hz</span></div>
+          <div class="string-btn" data-string="C4"><span class="string-note">C</span><span class="string-freq">261.6 Hz</span></div>
+          <div class="string-btn" data-string="E4"><span class="string-note">E</span><span class="string-freq">329.6 Hz</span></div>
+          <div class="string-btn" data-string="A4"><span class="string-note">A</span><span class="string-freq">440.0 Hz</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">Cancionero interactivo · acordes en afinación estándar de ukelele (G‑C‑E‑A)</footer>
+
+</div>
+
+<script>
+(function(){
+
+  /* ---------------- CHORD DATA (frets/fingers in G, C, E, A order) ---------------- */
+  const chordData = {
+    "C":   { frets:[0,0,0,3], fingers:[0,0,0,3] },
+    "Am":  { frets:[2,0,0,0], fingers:[2,0,0,0] },
+    "Dm":  { frets:[2,2,1,0], fingers:[2,3,1,0] },
+    "G7":  { frets:[0,2,1,2], fingers:[0,2,1,3] },
+    "Em":  { frets:[0,4,3,2], fingers:[0,3,2,1] },
+    "A":   { frets:[2,1,0,0], fingers:[2,1,0,0] },
+    "C#m": { frets:[1,1,0,4], fingers:[1,1,0,4] },
+    "D":   { frets:[2,2,2,0], fingers:[1,1,1,0] },
+    "Bm":  { frets:[4,2,2,2], fingers:[3,1,1,1] },
+    "E":   { frets:[1,4,0,2], fingers:[1,4,0,2] },
+    "F":   { frets:[2,0,1,0], fingers:[2,0,1,0] },
+    "G":   { frets:[0,2,3,2], fingers:[0,1,3,2] },
+    "G/B": { frets:[0,2,3,2], fingers:[0,1,3,2] },
+    "E7":  { frets:[1,2,0,2], fingers:[1,2,0,3] },
+    "A7":  { frets:[0,1,0,0], fingers:[0,1,0,0] }
+  };
+
+  // Small clarifying notes shown under a chord name in its card
+  const chordNotes = {
+    "G/B": "bajo en B · misma forma que G"
+  };
+
+  /* ---------------- SONG DATA ---------------- */
+  const songs = {
+    reloj: {
+      chordsUsed: ["C","Am","Dm","G7","Em"],
+      blocks: [
+        { kind:"progression", label:"Intro", pattern:[["C","Am"],["Dm","G7"],["C","Am"],["Dm","G7"]] },
+        { kind:"section", label:"Verso", stanzas:[
+          [
+            {chords:["C","Am","Dm","G7"], lyric:"Reloj, no marques las horas"},
+            {chords:["C","Am","Dm","G7"], lyric:"porque voy a enloquecer"},
+            {chords:["C","Am","Dm","G7"], lyric:"ella se irá para siempre"},
+            {chords:["C","Am","Dm","G7"], lyric:"cuando amanezca otra vez."}
+          ],
+          [
+            {chords:["C","Am","Dm","G7"], lyric:"Nomás nos queda esta noche"},
+            {chords:["C","Am","Dm","G7"], lyric:"para vivir nuestro amor"},
+            {chords:["C","Am","Dm","G7"], lyric:"y tu tic tac me recuerda"},
+            {chords:["C","Am","Dm","G7"], lyric:"mi irremediable dolor."}
+          ]
+        ]},
+        { kind:"section", label:"Coro", stanzas:[
+          [
+            {chords:["C","Am","Em"], lyric:"Reloj, detén tu camino"},
+            {chords:["Dm","G7","C","Am"], lyric:"porque mi vida se apaga"},
+            {chords:["Dm","G7","C","Am"], lyric:"ella es la estrella que alumbra mi ser"},
+            {chords:["Dm","G7","C","Am"], lyric:"yo sin su amor no soy nada."}
+          ],
+          [
+            {chords:["C","Am","Em"], lyric:"Detén el tiempo en tus manos"},
+            {chords:["Dm","G7","C","Am"], lyric:"haz esta noche perpetua"},
+            {chords:["Dm","G7","C","Am"], lyric:"para que nunca se vaya de mí"},
+            {chords:["Dm","G7","C","Am"], lyric:"para que nunca amanezca."}
+          ]
+        ]}
+      ]
+    },
+    llorando: {
+      chordsUsed: ["A","C#m","D","Bm","E"],
+      blocks: [
+        { kind:"progression", label:"Intro", pattern:[["Bm","A","E","A"]] },
+        { kind:"section", label:"Verso", stanzas:[
+          [
+            {chords:["A","C#m","D"], lyric:"Déjenme si estoy llorando, ni un consuelo estoy buscando"},
+            {chords:["A","D"], lyric:"quiero estar solo con mi dolor."},
+            {chords:["A"], lyric:"Si me ves que a solas voy llorando"},
+            {chords:["E"], lyric:"es que estoy de pronto recordando"},
+            {chords:["A","E"], lyric:"a un amor que no consigo olvidar."}
+          ],
+          [
+            {chords:["A","C#m","D"], lyric:"Déjenme si estoy llorando, es que sigo procurando"},
+            {chords:["A","D"], lyric:"en cada lágrima darme paz."},
+            {chords:["A"], lyric:"Pues el llanto le hace bien al alma"},
+            {chords:["E"], lyric:"si has sufrido perdiendo la calma"},
+            {chords:["A","E"], lyric:"y yo quiero olvidar que tu amor ya se fue."}
+          ]
+        ]},
+        { kind:"section", label:"Coro", stanzas:[
+          [
+            {chords:["D","C#m"], lyric:"Si me ven que estoy llorando"},
+            {chords:["Bm","E","A"], lyric:"es que a solas voy sacando, la nostalgia que ahora vive en mí."},
+            {chords:["D","A"], lyric:"No me pidan ni una explicación"},
+            {chords:["E"], lyric:"y es que no ha de hallar mi corazón"},
+            {chords:["A"], lyric:"la felicidad que ya perdí."},
+            {chords:["D","A"], lyric:"y ha negado en este mar de llanto"},
+            {chords:["E"], lyric:"sentiré que no te quise tanto"},
+            {chords:["A","D"], lyric:"y quizás me olvidaré de ti."}
+          ]
+        ]},
+        { kind:"progression", label:"Final", pattern:[["Bm","A","E","A"]] }
+      ]
+    },
+    tratame: {
+      chordsUsed: ["Am","Em","F","C","G","G/B"],
+      blocks: [
+        { kind:"progression", label:"Intro", pattern:[["Am","Em","F","C","G"]] },
+        { kind:"section", label:"Verso 1", stanzas:[
+          [
+            {chords:["Am","Em"], lyric:"Alguien me ha dicho que la"},
+            {chords:["F","C","G"], lyric:"soledad se esconde"},
+            {chords:["Am","Em"], lyric:"tras una historia que no"},
+            {chords:["F","C","G"], lyric:"quiero entender."}
+          ]
+        ]},
+        { kind:"section", label:"Pre-coro", stanzas:[
+          [
+            {chords:["F","G"], lyric:"Y aunque me hagas falta,"},
+            {chords:["C","G/B","Am"], lyric:"alguien me ha dicho que"},
+            {chords:["F","G"], lyric:"la soledad se esconde"},
+            {chords:["C","G/B","Am"], lyric:"tras una historia que no"},
+            {chords:["F","G"], lyric:"quiero entender."}
+          ]
+        ]},
+        { kind:"section", label:"Coro", stanzas:[
+          [
+            {chords:["C","G","Am","Em"], lyric:"Trátame suavemente, amor,"},
+            {chords:["F","C","G"], lyric:"trátame suavemente..."},
+            {chords:["C","G","Am","Em"], lyric:"Trátame suavemente, amor,"},
+            {chords:["F","G","C"], lyric:"trátame suavemente."}
+          ]
+        ]}
+      ]
+    },
+    ayer: {
+      chordsUsed: ["Am","Dm","G","C","E7","A7"],
+      blocks: [
+        { kind:"progression", label:"Intro", pattern:[["Am","Dm","G","C","E7"]] },
+        { kind:"section", label:"Verso 1", stanzas:[
+          [
+            {chords:["Am","Dm"], lyric:"Ayer preguntaron por ti,"},
+            {chords:["G","C","E7"], lyric:"tu nombre salió a relucir."},
+            {chords:["Am","Dm"], lyric:"Sentí una tristeza en mi voz"},
+            {chords:["E7","Am"], lyric:"al hablar de nuestro amor."}
+          ]
+        ]},
+        { kind:"section", label:"Coro", stanzas:[
+          [
+            {chords:["Dm","G"], lyric:"Dijeron que te han visto bien,"},
+            {chords:["C","Am"], lyric:"que luces hermosa y feliz,"},
+            {chords:["Dm","E7"], lyric:"no saben que dentro de mí"},
+            {chords:["Am","A7"], lyric:"se vive muriendo este amor."}
+          ]
+        ]},
+        { kind:"section", label:"Puente", stanzas:[
+          [
+            {chords:["Dm","G"], lyric:"Y yo me quedé en silencio,"},
+            {chords:["C","Am"], lyric:"sin fuerzas para contestar,"},
+            {chords:["Dm","E7"], lyric:"pues solo mi alma y mi llanto"},
+            {chords:["Am","A7"], lyric:"saben lo que es olvidar."}
+          ]
+        ]}
+      ]
+    }
+  };
+
+  /* ---------------- SVG FRETBOARD RENDERER ---------------- */
+  function fretboardSVG(chordName){
+    const data = chordData[chordName];
+    if(!data) return "";
+    const frets = data.frets, fingers = data.fingers;
+    const stringX = [16, 36, 56, 76];
+    const labels = ["G","C","E","A"];
+    const openY = 24;
+    const fretLineY = [34, 58, 82, 106, 130];
+    const fretMidY = [46, 70, 94, 118];
+
+    let s = "";
+
+    // string labels
+    labels.forEach((l,i)=>{
+      s += '<text class="uke-stringlabel" x="'+stringX[i]+'" y="10">'+l+'</text>';
+    });
+
+    // strings
+    stringX.forEach((x)=>{
+      s += '<line class="uke-string" x1="'+x+'" y1="26" x2="'+x+'" y2="130"></line>';
+    });
+
+    // frets (first line = nut, thicker)
+    fretLineY.forEach((y,i)=>{
+      const cls = i===0 ? "uke-nut" : "uke-fret";
+      s += '<line class="'+cls+'" x1="12" y1="'+y+'" x2="80" y2="'+y+'"></line>';
+    });
+
+    // open string circles
+    frets.forEach((f,i)=>{
+      if(f===0){
+        s += '<circle class="uke-open" cx="'+stringX[i]+'" cy="'+openY+'" r="4"></circle>';
+      }
+    });
+
+    // detect barres: consecutive strings sharing same fret AND same finger (>0)
+    const barres = [];
+    let i = 0;
+    while(i < frets.length){
+      if(frets[i] > 0){
+        let j = i;
+        while(j+1 < frets.length && frets[j+1] === frets[i] && fingers[j+1] === fingers[i]){ j++; }
+        if(j > i){ barres.push({start:i, end:j, fret:frets[i]}); i = j+1; continue; }
+      }
+      i++;
+    }
+    barres.forEach(function(b){
+      const y = fretMidY[b.fret-1];
+      const x1 = stringX[b.start]-10, x2 = stringX[b.end]+10;
+      s += '<rect class="uke-barre" x="'+x1+'" y="'+(y-9)+'" width="'+(x2-x1)+'" height="18" rx="9"></rect>';
+    });
+
+    // fretted dots
+    frets.forEach((f,i)=>{
+      if(f > 0){
+        const y = fretMidY[f-1];
+        s += '<circle class="uke-dot" cx="'+stringX[i]+'" cy="'+y+'" r="8"></circle>';
+        if(fingers[i] > 0){
+          s += '<text class="uke-dottext" x="'+stringX[i]+'" y="'+(y+3.5)+'">'+fingers[i]+'</text>';
+        }
+      }
+    });
+
+    return '<svg viewBox="0 0 92 138" xmlns="http://www.w3.org/2000/svg">'+s+'</svg>';
+  }
+
+  function chordBadgeHTML(chord){
+    return '<button type="button" class="chord-badge" data-chord="'+chord+'">'+chord+'</button>';
+  }
+
+  function escapeHTML(str){
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  /* ---------------- RENDER CHORD LIBRARY ---------------- */
+  function renderChordGrid(container, chordList){
+    let html = "";
+    chordList.forEach(function(chord){
+      const note = chordNotes[chord] ? '<div class="chord-card-note">'+chordNotes[chord]+'</div>' : '';
+      html += '<div class="chord-card" data-chord="'+chord+'">' +
+                '<div class="chord-card-name">'+chord+'</div>' +
+                note +
+                fretboardSVG(chord) +
+              '</div>';
+    });
+    container.innerHTML = html;
+  }
+
+  /* ---------------- RENDER LYRIC SHEET ---------------- */
+  function renderBlock(block){
+    if(block.kind === "progression"){
+      const groups = block.pattern.map(function(group){
+        return group.map(chordBadgeHTML).join(' <span class="dash">–</span> ');
+      });
+      return '<div class="progression-block">' +
+               '<span class="progression-label">'+block.label+'</span>' +
+               '<div class="progression"><span class="pipe">│</span> ' +
+                 groups.join(' <span class="pipe">│</span> ') +
+               ' <span class="pipe">│</span></div>' +
+             '</div>';
+    }
+    if(block.kind === "section"){
+      let html = '<div class="lyric-section"><h3 class="section-label">'+block.label+'</h3>';
+      block.stanzas.forEach(function(stanza){
+        html += '<div class="stanza">';
+        stanza.forEach(function(line){
+          html += '<div class="lyric-line">' +
+                    '<div class="chord-row">'+line.chords.map(chordBadgeHTML).join('')+'</div>' +
+                    '<div class="lyric-text">'+escapeHTML(line.lyric)+'</div>' +
+                  '</div>';
+        });
+        html += '</div>';
+      });
+      html += '</div>';
+      return html;
+    }
+    return "";
+  }
+
+  function renderSheet(container, blocks){
+    container.innerHTML = blocks.map(renderBlock).join("");
+  }
+
+  /* ---------------- RAIN MOTIF (song 2) ---------------- */
+  function renderRain(container){
+    let html = "";
+    const positions = [12, 30, 50, 68, 85];
+    positions.forEach(function(pct, idx){
+      const delay = (idx * 1.1).toFixed(1);
+      html += '<span class="rain-drop" style="left:'+pct+'%; animation-delay:-'+delay+'s;"></span>';
+    });
+    container.innerHTML = html;
+  }
+
+  /* ---------------- INIT ---------------- */
+  document.querySelectorAll(".song-panel").forEach(function(panel){
+    const songId = panel.dataset.song;
+    const song = songs[songId];
+    if(!song) return; // panel sin datos de canción (p. ej. el afinador)
+    renderChordGrid(panel.querySelector("[data-chordgrid]"), song.chordsUsed);
+    renderSheet(panel.querySelector("[data-lyrics]"), song.blocks);
+    const rainEl = panel.querySelector("[data-rain]");
+    if(rainEl) renderRain(rainEl);
+  });
+
+  /* ---------------- TAB SWITCHING ---------------- */
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".song-panel");
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      tabs.forEach(function(t){ t.classList.remove("active"); t.setAttribute("aria-selected","false"); });
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected","true");
+      panels.forEach(function(p){
+        p.classList.toggle("active", p.dataset.song === tab.dataset.song);
+      });
+    });
+  });
+
+  /* ---------------- CLICK-TO-HIGHLIGHT CHORD DIAGRAM ---------------- */
+  document.addEventListener("click", function(e){
+    const badge = e.target.closest(".chord-badge");
+    if(!badge) return;
+    const panel = badge.closest(".song-panel");
+    if(!panel) return;
+    const chord = badge.getAttribute("data-chord");
+    const card = panel.querySelector('.chord-card[data-chord="'+chord+'"]');
+    if(!card) return;
+    card.scrollIntoView({ behavior:"smooth", block:"center" });
+    card.classList.remove("pulse");
+    void card.offsetWidth; // restart animation
+    card.classList.add("pulse");
+    clearTimeout(card._pulseTimer);
+    card._pulseTimer = setTimeout(function(){ card.classList.remove("pulse"); }, 1400);
+  });
+
+  /* ================= AFINADOR DE UKELELE (100% local, sin internet) ================= */
+  (function(){
+    const panel = document.getElementById("panel-afinador");
+    if(!panel) return;
+
+    const micBtn      = panel.querySelector("[data-mic-btn]");
+    const micLabel    = panel.querySelector("[data-mic-label]");
+    const micMsg      = panel.querySelector("[data-mic-msg]");
+    const display     = panel.querySelector("[data-tuner-display]");
+    const noteNameEl  = panel.querySelector("[data-note-name]");
+    const freqEl       = panel.querySelector("[data-freq]");
+    const statusEl     = panel.querySelector("[data-status]");
+    const centsEl       = panel.querySelector("[data-cents]");
+    const needleEl      = panel.querySelector("[data-needle]");
+    const stringBtns    = panel.querySelectorAll("[data-string]");
+
+    // Cuerdas del ukelele en afinación estándar (soprano/concierto), reentrante: G4-C4-E4-A4
+    const UKE_STRINGS = [
+      { id:"G4", freq:392.00 },
+      { id:"C4", freq:261.63 },
+      { id:"E4", freq:329.63 },
+      { id:"A4", freq:440.00 }
+    ];
+
+    const NOTE_NAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+
+    let audioCtx = null;
+    let analyser = null;
+    let sourceNode = null;
+    let mediaStream = null;
+    let rafId = null;
+    let listening = false;
+    let sampleBuf = null;
+    let smoothedFreq = null;
+
+    function frequencyToNote(freq){
+      const midi = 69 + 12 * Math.log2(freq / 440);
+      const roundedMidi = Math.round(midi);
+      const name = NOTE_NAMES[(roundedMidi % 12 + 12) % 12];
+      const octave = Math.floor(roundedMidi / 12) - 1;
+      const exactFreq = 440 * Math.pow(2, (roundedMidi - 69) / 12);
+      const cents = 1200 * Math.log2(freq / exactFreq);
+      return { name: name + octave, cents: cents, midi: roundedMidi };
+    }
+
+    function closestUkeString(freq){
+      let best = null, bestCents = Infinity;
+      UKE_STRINGS.forEach(function(s){
+        const cents = 1200 * Math.log2(freq / s.freq);
+        if (Math.abs(cents) < Math.abs(bestCents)){ bestCents = cents; best = s; }
+      });
+      return { string: best, cents: bestCents };
+    }
+
+    // Detector de tono por autocorrelación (algoritmo clásico ACF, todo en el navegador)
+    function autoCorrelate(buf, sampleRate){
+      const SIZE = buf.length;
+      let rms = 0;
+      for (let i = 0; i < SIZE; i++){ rms += buf[i] * buf[i]; }
+      rms = Math.sqrt(rms / SIZE);
+      if (rms < 0.012) return -1; // señal muy débil / silencio
+
+      let r1 = 0, r2 = SIZE - 1;
+      const thres = 0.2;
+      for (let i = 0; i < SIZE / 2; i++){ if (Math.abs(buf[i]) < thres){ r1 = i; break; } }
+      for (let i = 1; i < SIZE / 2; i++){ if (Math.abs(buf[SIZE - i]) < thres){ r2 = SIZE - i; break; } }
+
+      const trimmed = buf.slice(r1, r2);
+      const n = trimmed.length;
+      if (n < 8) return -1;
+
+      const c = new Float32Array(n);
+      for (let i = 0; i < n; i++){
+        let sum = 0;
+        for (let j = 0; j < n - i; j++){ sum += trimmed[j] * trimmed[j + i]; }
+        c[i] = sum;
+      }
+
+      let d = 0;
+      while (d + 1 < n && c[d] > c[d + 1]){ d++; }
+
+      let maxVal = -1, maxPos = -1;
+      for (let i = d; i < n; i++){
+        if (c[i] > maxVal){ maxVal = c[i]; maxPos = i; }
+      }
+      if (maxPos <= 0 || maxPos >= n - 1) return -1;
+
+      const x1 = c[maxPos - 1], x2 = c[maxPos], x3 = c[maxPos + 1];
+      const a = (x1 + x3 - 2 * x2) / 2;
+      const b = (x3 - x1) / 2;
+      let T0 = maxPos;
+      if (a !== 0){ T0 = maxPos - b / (2 * a); }
+
+      if (T0 <= 0) return -1;
+      return sampleRate / T0;
+    }
+
+    function resetDisplay(){
+      display.setAttribute("hidden", "");
+      noteNameEl.textContent = "–";
+      freqEl.textContent = "0.0 Hz";
+      statusEl.textContent = "—";
+      statusEl.className = "tuner-status";
+      centsEl.textContent = "0 cents";
+      needleEl.style.transform = "rotate(0deg)";
+      stringBtns.forEach(function(b){ b.classList.remove("active-string", "in-tune"); });
+      smoothedFreq = null;
+    }
+
+    function updateUI(freq){
+      if (freq === -1 || !freq || !isFinite(freq) || freq < 60 || freq > 1200){
+        // no se detecta señal clara: no borres bruscamente, solo atenúa
+        return;
+      }
+
+      // suavizado simple para evitar saltos nerviosos de la aguja
+      smoothedFreq = (smoothedFreq === null) ? freq : (smoothedFreq * 0.72 + freq * 0.28);
+
+      const note = frequencyToNote(smoothedFreq);
+      const near = closestUkeString(smoothedFreq);
+
+      noteNameEl.textContent = note.name;
+      freqEl.textContent = smoothedFreq.toFixed(1) + " Hz";
+
+      const cents = near.cents;
+      centsEl.textContent = (cents > 0 ? "+" : "") + cents.toFixed(0) + " cents (" + near.string.id + ")";
+
+      const clamped = Math.max(-50, Math.min(50, cents));
+      const angle = (clamped / 50) * 45; // -45deg a +45deg
+      needleEl.style.transform = "rotate(" + angle + "deg)";
+
+      const inTune = Math.abs(cents) <= 5;
+      statusEl.className = "tuner-status " + (inTune ? "in-tune" : (cents < 0 ? "flat" : "sharp"));
+      statusEl.textContent = inTune ? "✓ Afinado" : (cents < 0 ? "▲ Sube (tensa) la cuerda" : "▼ Baja (afloja) la cuerda");
+
+      stringBtns.forEach(function(b){
+        const isNear = b.getAttribute("data-string") === near.string.id;
+        b.classList.toggle("active-string", isNear);
+        b.classList.toggle("in-tune", isNear && inTune);
+      });
+    }
+
+    function loop(){
+      if (!listening) return;
+      analyser.getFloatTimeDomainData(sampleBuf);
+      const freq = autoCorrelate(sampleBuf, audioCtx.sampleRate);
+      updateUI(freq);
+      rafId = requestAnimationFrame(loop);
+    }
+
+    async function startMic(){
+      try{
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: false
+          }
+        });
+      } catch (err){
+        micMsg.textContent = "No se pudo acceder al micrófono. Revisa los permisos del navegador, o si abriste este archivo como archivo local prueba servirlo desde un servidor local o HTTPS.";
+        micMsg.classList.add("error");
+        return;
+      }
+
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended"){ await audioCtx.resume(); }
+
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048;
+      sampleBuf = new Float32Array(analyser.fftSize);
+
+      sourceNode = audioCtx.createMediaStreamSource(mediaStream);
+      sourceNode.connect(analyser); // no conectamos a destination: sin eco/retroalimentación
+
+      listening = true;
+      micBtn.classList.add("listening");
+      micLabel.textContent = "Detener micrófono";
+      micMsg.classList.remove("error");
+      micMsg.textContent = "Escuchando… acerca el ukelele al micrófono y toca una cuerda a la vez.";
+      display.removeAttribute("hidden");
+
+      loop();
+    }
+
+    function stopMic(){
+      listening = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      if (mediaStream){ mediaStream.getTracks().forEach(function(t){ t.stop(); }); }
+      if (sourceNode){ sourceNode.disconnect(); }
+      if (audioCtx){ audioCtx.close(); }
+      audioCtx = null; analyser = null; sourceNode = null; mediaStream = null;
+
+      micBtn.classList.remove("listening");
+      micLabel.textContent = "Activar micrófono";
+      micMsg.classList.remove("error");
+      micMsg.textContent = "Todo el procesamiento ocurre en tu celular; no se envía audio a ningún servidor.";
+      resetDisplay();
+    }
+
+    micBtn.addEventListener("click", function(){
+      if (listening){ stopMic(); } else { startMic(); }
+    });
+
+    // Si el usuario cambia de pestaña de canción, dejamos el micrófono correr igual
+    // (solo se detiene si el usuario lo pide). Si se cierra/oculta la página, pausamos por batería.
+    document.addEventListener("visibilitychange", function(){
+      if (document.hidden && listening){
+        if (rafId) cancelAnimationFrame(rafId);
+      } else if (!document.hidden && listening){
+        loop();
+      }
+    });
+  })();
+
+})();
+</script>
+
+</body>
+</html>
