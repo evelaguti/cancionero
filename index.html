@@ -149,6 +149,7 @@
   .song-panel[data-song="tratame"]{ --accent: var(--rosa-suave); --accent-light: var(--rosa-claro); }
   .song-panel[data-song="ayer"]{ --accent: var(--lila-nostalgia); --accent-light: var(--lila-claro); }
   .song-panel[data-song="amor"]{ --accent: var(--oro-viejo); --accent-light: var(--oro-claro); }
+  .song-panel[data-song="valparaiso"]{ --accent: var(--azul-llanto); --accent-light: var(--azul-claro); }
   .song-panel[data-song="afinador"]{ --accent: var(--verde-uke); --accent-light: var(--verde-claro); }
 
   .song-head{
@@ -563,6 +564,10 @@
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
       Te he prometido
     </button>
+    <button class="tab-btn tab-valparaiso" role="tab" aria-selected="false" aria-controls="panel-valparaiso" data-song="valparaiso">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="18" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c2.2 0 4 1 5.5 2.3M12 3c-2.2 0-4 1-5.5 2.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      El viejo puerto
+    </button>
     <button class="tab-btn tab-afinador" role="tab" aria-selected="false" aria-controls="panel-afinador" data-song="afinador">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="18" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c2.2 0 4 1 5.5 2.3M12 3c-2.2 0-4 1-5.5 2.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       Afinador
@@ -665,7 +670,24 @@
     <div class="sheet" data-lyrics></div>
   </section>
 
-  <!-- ============ PANEL 6: AFINADOR ============ -->
+  <!-- ============ PANEL 6: EL VIEJO PUERTO ============ -->
+  <section class="song-panel" id="panel-valparaiso" data-song="valparaiso" role="tabpanel" aria-labelledby="tab-valparaiso">
+    <div class="song-head">
+      <p class="song-genre">Víctor Jara</p>
+      <h2 class="song-title">El viejo puerto</h2>
+      <span class="tono-badge">Tono sugerido: Do# menor (C#m)</span>
+    </div>
+
+    <div class="lib-section">
+      <p class="lib-title">Acordes de la canción</p>
+      <p class="lib-hint">Toca un acorde en la letra para verlo resaltado aquí abajo.</p>
+      <div class="chord-grid" data-chordgrid></div>
+    </div>
+
+    <div class="sheet" data-lyrics></div>
+  </section>
+
+  <!-- ============ PANEL 7: AFINADOR ============ -->
   <section class="song-panel" id="panel-afinador" data-song="afinador" role="tabpanel" aria-labelledby="tab-afinador">
     <div class="song-head">
       <p class="song-genre">Herramienta</p>
@@ -909,6 +931,51 @@
       ]
     },
     amor: {
+      chordsUsed: ["A", "F#m", "Bm", "E7", "D", "C#m"],
+      blocks: [
+        { kind:"section", label:"Verso 1", stanzas:[
+          [
+            {chords:["A","F#m"], lyric:"Te he prometido que te he de olvidar"},
+            {chords:["D","E7"], lyric:"Cuanto haz querido yo te supe dar"}
+          ],
+          [
+            {chords:["A","F#m"], lyric:"Solo y herido así me dejas"},
+            {chords:["D","E7","A"], lyric:"Sabiendo que mañana irás con otro al altar"}
+          ]
+        ]},
+        { kind:"section", label:"Estribillo", stanzas:[
+          [
+            {chords:["A","F#m"], lyric:"Llorarás, llorarás por tu capricho"},
+            {chords:["D","E7"], lyric:"Si yo sé que es a mí a quien queréis"}
+          ],
+          [
+            {chords:["A","F#m"], lyric:"No podrás ser feliz con ningún otro"},
+            {chords:["D","E7","A","E7","A","E7","A"], lyric:"Pues conmigo conociste el amor, sí el amor, sí el amor."}
+          ]
+        ]},
+        { kind:"section", label:"Verso 2", stanzas:[
+          [
+            {chords:["A","F#m"], lyric:"Te he prometido que te he de olvidar"},
+            {chords:["D","E7"], lyric:"Cuanto haz querido yo te supe dar"}
+          ],
+          [
+            {chords:["A","F#m"], lyric:"Solo y herido así me dejas"},
+            {chords:["D","E7","A"], lyric:"Sabiendo que mañana irás con otro al altar"}
+          ]
+        ]},
+        { kind:"section", label:"Estribillo final", stanzas:[
+          [
+            {chords:["A","F#m"], lyric:"Llorarás, llorarás por tu capricho"},
+            {chords:["D","E7"], lyric:"Si yo sé que es a mí a quien queréis"}
+          ],
+          [
+            {chords:["A","F#m"], lyric:"No podrás ser feliz con ningún otro"},
+            {chords:["D","E7","A","E7","A","E7","A"], lyric:"Pues conmigo conociste el amor, sí el amor, sí el amor"}
+          ]
+        ]}
+      ]
+    },
+    valparaiso: {
       chordsUsed: ["C#m", "G#", "B", "E", "A", "F#m"],
       blocks: [
         { kind:"section", label:"Verso 1", stanzas:[
