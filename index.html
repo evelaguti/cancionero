@@ -652,8 +652,8 @@
   <section class="song-panel" id="panel-amor" data-song="amor" role="tabpanel" aria-labelledby="tab-amor">
     <div class="song-head">
       <p class="song-genre">Leo Dan</p>
-      <h2 class="song-title">Te he prometido</h2>
-      <span class="tono-badge">Tono sugerido: La Mayor (A)</span>
+      <h2 class="song-title">El amor</h2>
+      <span class="tono-badge">Leo Dan</span>
     </div>
 
     <div class="lib-section">
@@ -742,7 +742,9 @@
     "G":   { frets:[0,2,3,2], fingers:[0,1,3,2] },
     "G/B": { frets:[0,2,3,2], fingers:[0,1,3,2] },
     "E7":  { frets:[1,2,0,2], fingers:[1,2,0,3] },
-    "A7":  { frets:[0,1,0,0], fingers:[0,1,0,0] }
+    "A7":  { frets:[0,1,0,0], fingers:[0,1,0,0] },
+    "B":   { frets:[2,4,4,4], fingers:[1,3,2,4] },
+    "G#":  { frets:[4,4,4,3], fingers:[4,1,2,3] }
   };
 
   // Small clarifying notes shown under a chord name in its card
@@ -907,46 +909,67 @@
       ]
     },
     amor: {
-      chordsUsed: ["A", "F#m", "Bm", "E7", "D", "C#m"],
+      chordsUsed: ["C#m", "G#", "B", "E", "A", "F#m"],
       blocks: [
         { kind:"section", label:"Verso 1", stanzas:[
           [
-            {chords:["A","F#m"], lyric:"Te he prometido que te he de olvidar"},
-            {chords:["D","E7"], lyric:"Cuanto haz querido yo te supe dar"}
+            {chords:["C#m","G#"], lyric:"Yo no he sabido de su historia,"},
+            {chords:["E","B"], lyric:"Un día nací allí, sencillamente."}
           ],
           [
-            {chords:["A","F#m"], lyric:"Solo y herido así me dejas"},
-            {chords:["D","E7","A"], lyric:"Sabiendo que mañana irás con otro al altar"}
-          ]
-        ]},
-        { kind:"section", label:"Estribillo", stanzas:[
-          [
-            {chords:["A","F#m"], lyric:"Llorarás, llorarás por tu capricho"},
-            {chords:["D","E7"], lyric:"Si yo sé que es a mí a quien queréis"}
+            {chords:["A","C#","F#m"], lyric:"El viejo puerto vigiló mi infancia"},
+            {chords:["B","E","G#"], lyric:"Con rostro de fría indiferencia."}
           ],
           [
-            {chords:["A","F#m"], lyric:"No podrás ser feliz con ningún otro"},
-            {chords:["D","E7","A","E7","A","E7","A"], lyric:"Pues conmigo conociste el amor, sí el amor, sí el amor."}
+            {chords:["A","C#","F#m"], lyric:"Porque no nací pobre y siempre tuve"},
+            {chords:["B","E","G#"], lyric:"Un miedo inconcebible a la pobreza."}
           ]
         ]},
         { kind:"section", label:"Verso 2", stanzas:[
           [
-            {chords:["A","F#m"], lyric:"Te he prometido que te he de olvidar"},
-            {chords:["D","E7"], lyric:"Cuanto haz querido yo te supe dar"}
+            {chords:["C#m","G#"], lyric:"Yo les quiero contar lo que he observado"},
+            {chords:["E","B"], lyric:"Para que nos vayamos conociendo."}
           ],
           [
-            {chords:["A","F#m"], lyric:"Solo y herido así me dejas"},
-            {chords:["D","E7","A"], lyric:"Sabiendo que mañana irás con otro al altar"}
+            {chords:["A","C#","F#m"], lyric:"El habitante encadenó las calles"},
+            {chords:["B","E","G#"], lyric:"La lluvia destiñó las escaleras"}
+          ],
+          [
+            {chords:["A","C#","F#m"], lyric:"Y un manto de tristeza fue cubriendo"},
+            {chords:["B","E","G#"], lyric:"Los cerros con sus calles y sus niños."}
           ]
         ]},
-        { kind:"section", label:"Estribillo final", stanzas:[
+        { kind:"section", label:"Verso 3", stanzas:[
           [
-            {chords:["A","F#m"], lyric:"Llorarás, llorarás por tu capricho"},
-            {chords:["D","E7"], lyric:"Si yo sé que es a mí a quien queréis"}
+            {chords:["C#m","G#"], lyric:"Y vino el temporal y la llovizna"},
+            {chords:["E","B"], lyric:"Con su carga de arena y desperdicio."}
           ],
           [
-            {chords:["A","F#m"], lyric:"No podrás ser feliz con ningún otro"},
-            {chords:["D","E7","A","E7","A","E7","A"], lyric:"Pues conmigo conociste el amor, sí el amor, sí el amor"}
+            {chords:["A","C#","F#m"], lyric:"Por ahí paso la muerte tantas veces"},
+            {chords:["B","E","G#"], lyric:"La muerte que enlutó a Valparaíso"}
+          ],
+          [
+            {chords:["A","C#","F#m"], lyric:"Y una vez más el viento como siempre"},
+            {chords:["B","E","G#"], lyric:"Limpió la cara de este puerto herido."}
+          ]
+        ]},
+        { kind:"section", label:"Verso 4", stanzas:[
+          [
+            {chords:["C#m","G#"], lyric:"Pero este puerto amarra como el hambre,"},
+            {chords:["E","B"], lyric:"No se puede vivir sin conocerlo,"}
+          ],
+          [
+            {chords:["A","C#","F#m"], lyric:"No se puede mirar sin que nos falte,"},
+            {chords:["B","E","G#"], lyric:"La brea, el viento sur, los volantines,"}
+          ],
+          [
+            {chords:["A","C#","F#m"], lyric:"El pescador de jaivas que entristece"},
+            {chords:["B","E","G#"], lyric:"Nuestro paisaje de la costanera."}
+          ]
+        ]},
+        { kind:"section", label:"Cierre", stanzas:[
+          [
+            {chords:["C#m","G#"], lyric:"Yo no he sabido nunca de su historia..."}
           ]
         ]}
       ]
