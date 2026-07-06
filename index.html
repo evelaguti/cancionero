@@ -4,8 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cancionero de Boleros · Ukelele</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#C9A227">
+<style>
+  :root{
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: 'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-mono: 'Space Mono', 'Courier New', Courier, monospace;
+  }
+</style>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
+</style>
 
   :root{
     --vinilo: #1B1310;
@@ -1436,6 +1446,12 @@
   })();
 
 })();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  }
 </script>
 
 </body>
