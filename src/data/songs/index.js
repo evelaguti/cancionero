@@ -4,6 +4,7 @@ import tratame from './tratame.js';
 import ayer from './ayer.js';
 import amor from './amor.js';
 import valparaiso from './valparaiso.js';
+import flaca from './flaca.js';
 
 export const songs = [
   reloj,
@@ -11,5 +12,6 @@ export const songs = [
   tratame,
   ayer,
   amor,
-  valparaiso
+  valparaiso,
+  flaca
 ];
