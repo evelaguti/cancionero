@@ -1,46 +1,67 @@
-# Astro Starter Kit: Basics
+# Cancionero de Boleros para Ukelele
 
-```sh
-npm create astro@latest -- --template basics
-```
+Este es un proyecto modular basado en Astro que contiene letras completas, cifrado interactivo y diagramas de acordes de boleros populares adaptados para ukelele. También incluye una herramienta de afinación estándar (G-C-E-A) de procesamiento 100% local en el navegador.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 📐 Arquitectura Modular (Archivos < 250 líneas)
 
-## 🚀 Project Structure
+El proyecto está diseñado siguiendo una arquitectura modular estricta para facilitar su mantenimiento y edición, asegurando que ningún archivo supere el límite de 250 líneas de código:
 
-Inside of your Astro project, you'll see the following folders and files:
+- **`src/data/`**: Base de datos de acordes (`chords.js`) y datos individuales por canción en la subcarpeta `songs/` (como `reloj.js`, `tratame.js`, etc.).
+- **`src/components/`**: Componentes Astro que encapsulan su propio HTML, lógica y estilos CSS (como `Header.astro`, `TabList.astro`, `SongPanel.astro`, `ChordLibrary.astro`, `Fretboard.astro`, `LyricSheet.astro`, `Tuner.astro` y `Footer.astro`).
+- **`src/scripts/`**: Archivos de interactividad del lado del cliente (`interactive.js` para control de pestañas y efectos de scroll/vibración; `tuner.js` para el procesador de audio del afinador).
+- **`src/styles/`**: Estilos base y variables globales de color en `global.css`.
+- **`public/`**: Contiene recursos PWA y el Service Worker (`sw.js`) para soporte offline.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+---
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🚀 Comandos de Desarrollo Local
 
-## 🧞 Commands
+Asegúrate de estar en el directorio raíz y ejecuta:
 
-All commands are run from the root of the project, from a terminal:
+| Comando | Acción |
+| :--- | :--- |
+| `npm install` | Instala las dependencias necesarias |
+| `npm run dev` | Inicia el servidor de desarrollo en `http://localhost:4321` |
+| `npm run build` | Compila el sitio para producción en la carpeta `dist/` |
+| `npm run preview` | Previsualiza localmente el sitio compilado |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## 🌐 Instrucciones de Despliegue en GitHub Pages
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+El proyecto está configurado para desplegarse automáticamente en GitHub Pages. A continuación se detallan los pasos para realizarlo:
+
+### Método Automatizado (Recomendado via GitHub Actions)
+
+El proyecto incluye un flujo de trabajo automatizado en `.github/workflows/deploy.yml`.
+
+1. **Configurar el Repositorio en GitHub:**
+   - Ve a la página de tu repositorio en GitHub.
+   - Entra a **Settings** (Configuración) > **Pages** en el menú lateral.
+   - En la sección **Build and deployment** > **Source**, selecciona **GitHub Actions** en el menú desplegable (en lugar de "Deploy from a branch").
+
+2. **Hacer Push de los Cambios:**
+   - Cada vez que realices cambios y los subas a la rama principal (`main`):
+     ```sh
+     git add .
+     git commit -m "feat: descripción de tus cambios"
+     git push origin main
+     ```
+   - GitHub ejecutará automáticamente la compilación (`npm run build`) y publicará el sitio en `https://evelaguti.github.io/cancionero/`.
+
+### Método Manual (Alternativa Local)
+
+Si prefieres compilar y subir los archivos de forma manual:
+
+1. **Generar la compilación:**
+   - Ejecuta localmente en tu terminal:
+     ```sh
+     npm run build
+     ```
+   - Esto generará los archivos finales optimizados dentro del directorio `/dist`.
+
+2. **Publicar la carpeta `dist`:**
+   - Puedes subir el contenido de la carpeta `/dist` directamente a una rama dedicada como `gh-pages` en tu repositorio de GitHub, o utilizar utilidades como el paquete `gh-pages` de npm para automatizar la subida de ese directorio específico:
+     ```sh
+     npx gh-pages -d dist
+     ```
