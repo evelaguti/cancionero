@@ -1,0 +1,98 @@
+---
+import { chordData } from '../data/chords.js';
+
+interface Props {
+  chord: string;
+}
+
+const { chord } = Astro.props;
+
+const data = chordData[chord];
+if (!data) {
+  console.warn(`[Fretboard] Warning: Chord data not found for "${chord}"`);
+}
+
+const frets = data?.frets || [];
+const fingers = data?.fingers || [];
+const stringX = [16, 36, 56, 76];
+const labels = ["G", "C", "E", "A"];
+const openY = 24;
+const fretLineY = [34, 58, 82, 106, 130];
+const fretMidY = [46, 70, 94, 118];
+
+// Detectar barres: cuerdas consecutivas compartiendo el mismo traste y dedo (>0)
+const barres = [];
+if (frets.length > 0) {
+  let i = 0;
+  while (i < frets.length) {
+    if (frets[i] > 0) {
+      let j = i;
+      while (j + 1 < frets.length && frets[j + 1] === frets[i] && fingers[j + 1] === fingers[i]) {
+        j++;
+      }
+      if (j > i) {
+        barres.push({ start: i, end: j, fret: frets[i] });
+        i = j + 1;
+        continue;
+      }
+    }
+    i++;
+  }
+}
+---
+
+<svg viewBox="0 0 92 138" xmlns="http://www.w3.org/2000/svg">
+  {labels.map((l, idx) => (
+    <text class="uke-stringlabel" x={stringX[idx]} y="10">{l}</text>
+  ))}
+
+  {stringX.map((x) => (
+    <line class="uke-string" x1={x} y1="26" x2={x} y2="130"></line>
+  ))}
+
+  {fretLineY.map((y, idx) => {
+    const cls = idx === 0 ? "uke-nut" : "uke-fret";
+    return <line class={cls} x1="12" y1={y} x2="80" y2={y}></line>;
+  })}
+
+  {frets.map((f, idx) => {
+    if (f === 0) {
+      return <circle class="uke-open" cx={stringX[idx]} cy={openY} r="4"></circle>;
+    }
+    return null;
+  })}
+
+  {barres.map((b) => {
+    const y = fretMidY[b.fret - 1];
+    const x1 = stringX[b.start] - 10;
+    const x2 = stringX[b.end] + 10;
+    return <rect class="uke-barre" x={x1} y={y - 9} width={x2 - x1} height="18" rx="9"></rect>;
+  })}
+
+  {frets.map((f, idx) => {
+    if (f > 0) {
+      const y = fretMidY[f - 1];
+      const finger = fingers[idx];
+      return (
+        <g>
+          <circle class="uke-dot" cx={stringX[idx]} cy={y} r="8"></circle>
+          {finger > 0 && (
+            <text class="uke-dottext" x={stringX[idx]} y={y + 3.5}>{finger}</text>
+          )}
+        </g>
+      );
+    }
+    return null;
+  })}
+</svg>
+
+<style>
+  .uke-string { stroke: var(--marfil); stroke-width: 1.3; opacity: 0.4; }
+  .uke-fret { stroke: var(--marfil); stroke-width: 1.1; opacity: 0.3; }
+  .uke-nut { stroke: var(--marfil); stroke-width: 3; opacity: 0.85; }
+  .uke-open { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+  .uke-dot { fill: var(--accent); }
+  .uke-barre { fill: var(--accent); opacity: 0.32; }
+  .uke-dottext { fill: var(--vinilo); font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; text-anchor: middle; }
+  .uke-stringlabel { fill: var(--marfil-tenue); font-family: var(--font-mono); font-size: 8.5px; text-anchor: middle; }
+</style>

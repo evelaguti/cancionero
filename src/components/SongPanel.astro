@@ -1,0 +1,166 @@
+---
+import ChordLibrary from './ChordLibrary.astro';
+import LyricSheet from './LyricSheet.astro';
+
+interface Props {
+  song: any;
+  isActive: boolean;
+}
+
+const { song, isActive } = Astro.props;
+
+const accents = {
+  reloj: { accent: "var(--oro-viejo)", accentLight: "var(--oro-claro)" },
+  llorando: { accent: "var(--azul-llanto)", accentLight: "var(--azul-claro)" },
+  tratame: { accent: "var(--rosa-suave)", accentLight: "var(--rosa-claro)" },
+  ayer: { accent: "var(--lila-nostalgia)", accentLight: "var(--lila-claro)" },
+  amor: { accent: "var(--oro-viejo)", accentLight: "var(--oro-claro)" },
+  valparaiso: { accent: "var(--azul-llanto)", accentLight: "var(--azul-claro)" },
+}[song.id] || { accent: "var(--oro-viejo)", accentLight: "var(--oro-claro)" };
+---
+
+<section 
+  class={`song-panel ${isActive ? 'active' : ''}`} 
+  id={`panel-${song.id}`} 
+  data-song={song.id} 
+  role="tabpanel" 
+  aria-labelledby={`tab-${song.id}`}
+  style={`--accent: ${accents.accent}; --accent-light: ${accents.accentLight};`}
+>
+  <div class="song-head">
+    {song.id === "reloj" && (
+      <svg class="clock-motif" viewBox="0 0 54 54">
+        <circle class="clock-face" cx="27" cy="27" r="21"/>
+        <line class="clock-tick" x1="27" y1="8" x2="27" y2="11"/>
+        <line class="clock-tick" x1="27" y1="43" x2="27" y2="46"/>
+        <line class="clock-tick" x1="8" y1="27" x2="11" y2="27"/>
+        <line class="clock-tick" x1="43" y1="27" x2="46" y2="27"/>
+        <line class="clock-hand-hr" x1="27" y1="27" x2="27" y2="17"/>
+        <line class="clock-hand-min" x1="27" y1="27" x2="34" y2="27"/>
+        <line class="clock-hand-sec" x1="27" y1="27" x2="27" y2="14"/>
+        <circle cx="27" cy="27" r="1.4" fill="var(--marfil)"/>
+      </svg>
+    )}
+    {song.id === "llorando" && (
+      <div class="rain-motif" data-rain></div>
+    )}
+    <p class="song-genre">{song.genre}</p>
+    <h2 class="song-title">{song.title}</h2>
+    <span class="tono-badge">{song.suggestedKey}</span>
+  </div>
+
+  <ChordLibrary chords={song.chordsUsed} />
+  <LyricSheet blocks={song.blocks} />
+</section>
+
+<style>
+  .song-panel {
+    display: none;
+    animation: fadeIn 0.45s ease;
+  }
+  .song-panel.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .song-head {
+    position: relative;
+    padding: 38px 10px 28px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(239, 227, 206, 0.1);
+  }
+
+  .song-genre {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 10px;
+  }
+
+  .song-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(26px, 5vw, 38px);
+    margin: 0 0 14px;
+    color: var(--marfil);
+  }
+
+  .tono-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 5px 16px;
+    background: rgba(239, 227, 206, 0.03);
+  }
+
+  /* clock signature (song 1) */
+  .clock-motif {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    width: 54px;
+    height: 54px;
+    opacity: 0.85;
+  }
+  .clock-face { fill: none; stroke: var(--marfil-tenue); stroke-width: 1.4; }
+  .clock-tick { stroke: var(--marfil-tenue); stroke-width: 1.2; }
+  .clock-hand-hr { stroke: var(--marfil); stroke-width: 2; stroke-linecap: round; }
+  .clock-hand-min { stroke: var(--marfil); stroke-width: 1.6; stroke-linecap: round; }
+  .clock-hand-sec {
+    stroke: var(--oro-viejo);
+    stroke-width: 1;
+    stroke-linecap: round;
+    transform-origin: 27px 27px;
+    animation: stopTime 3.6s cubic-bezier(.25, .9, .3, 1) 1 forwards;
+  }
+  @keyframes stopTime {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(340deg); }
+  }
+
+  /* rain / tears signature (song 2) */
+  .rain-motif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  :global(.rain-drop) {
+    position: absolute;
+    top: -30px;
+    width: 1.5px;
+    height: 22px;
+    background: linear-gradient(to bottom, transparent, var(--azul-llanto));
+    opacity: 0.35;
+    animation: fall 5.5s linear infinite;
+  }
+  @keyframes fall {
+    0% { transform: translateY(0); opacity: 0; }
+    12% { opacity: 0.4; }
+    85% { opacity: 0.25; }
+    100% { transform: translateY(120px); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clock-hand-sec { animation: none; transform: rotate(300deg); }
+    :global(.rain-drop) { animation: none; display: none; }
+    .song-panel { animation: none; }
+  }
+
+  @media (max-width: 480px) {
+    .clock-motif { width: 42px; height: 42px; top: 12px; right: 14px; }
+  }
+</style>

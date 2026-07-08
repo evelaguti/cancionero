@@ -1,0 +1,191 @@
+---
+interface Props {
+  blocks: any[];
+}
+
+const { blocks } = Astro.props;
+---
+
+<div class="sheet">
+  {blocks.map((block) => {
+    if (block.kind === "progression") {
+      return (
+        <div class="progression-block">
+          <span class="progression-label">{block.label}</span>
+          <div class="progression">
+            <span class="pipe">│</span>
+            {block.pattern.map((group, groupIdx) => (
+              <>
+                {group.map((chord, chordIdx) => (
+                  <>
+                    <button type="button" class="chord-badge" data-chord={chord}>{chord}</button>
+                    {chordIdx < group.length - 1 && <span class="dash">–</span>}
+                  </>
+                ))}
+                {groupIdx < block.pattern.length - 1 && <span class="pipe">│</span>}
+              </>
+            ))}
+            <span class="pipe">│</span>
+          </div>
+        </div>
+      );
+    }
+
+    if (block.kind === "section") {
+      return (
+        <div class="lyric-section">
+          <h3 class="section-label">{block.label}</h3>
+          {block.stanzas.map((stanza) => (
+            <div class="stanza">
+              {stanza.map((line) => (
+                <div class="lyric-line">
+                  <div class="chord-row">
+                    {line.chords.map((chord) => (
+                      <button type="button" class="chord-badge" data-chord={chord}>{chord}</button>
+                    ))}
+                  </div>
+                  <div class="lyric-text">{line.lyric}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  })}
+</div>
+
+<style>
+  .sheet {
+    margin-top: 26px;
+    background: linear-gradient(180deg, rgba(239, 227, 206, 0.035), rgba(239, 227, 206, 0.015));
+    border: 1px solid rgba(239, 227, 206, 0.09);
+    border-radius: 14px;
+    padding: 30px 22px 34px;
+  }
+
+  .progression {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--accent-light);
+    text-align: center;
+    margin: 0 0 26px;
+    letter-spacing: 0.5px;
+  }
+
+  .progression .pipe {
+    color: var(--marfil-tenue);
+    margin: 0 4px;
+  }
+
+  .progression .dash {
+    color: var(--marfil-tenue);
+    margin: 0 2px;
+  }
+
+  .progression-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--marfil-tenue);
+    margin-bottom: 8px;
+  }
+
+  .progression-block {
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .progression-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(239, 227, 206, 0.15);
+  }
+
+  .lyric-section {
+    margin-bottom: 30px;
+  }
+
+  .lyric-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .stanza {
+    margin-bottom: 20px;
+  }
+
+  .stanza:last-child {
+    margin-bottom: 0;
+  }
+
+  .lyric-line {
+    margin-bottom: 11px;
+  }
+
+  .lyric-line:last-child {
+    margin-bottom: 0;
+  }
+
+  .chord-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 3px;
+    min-height: 26px;
+    align-items: center;
+  }
+
+  .chord-badge {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-light);
+    background: rgba(239, 227, 206, 0.04);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .chord-badge:hover {
+    background: var(--accent);
+    color: var(--vinilo);
+    transform: translateY(-1px);
+  }
+
+  .chord-badge:focus-visible {
+    outline: 2px solid var(--marfil);
+    outline-offset: 2px;
+  }
+
+  .lyric-text {
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--marfil);
+  }
+
+  @media (max-width: 480px) {
+    .sheet {
+      padding: 24px 14px 28px;
+    }
+
+    .lyric-text {
+      font-size: 15.5px;
+    }
+  }
+</style>

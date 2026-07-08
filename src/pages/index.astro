@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import TabList from '../components/TabList.astro';
+import SongPanel from '../components/SongPanel.astro';
+import Tuner from '../components/Tuner.astro';
+import Footer from '../components/Footer.astro';
+import { songs } from '../data/songs/index.js';
+---
+
+<Layout title="Cancionero de Boleros · Ukelele">
+  <div class="wrap">
+    <Header />
+    <TabList />
+
+    {songs.map((song, index) => (
+      <SongPanel song={song} isActive={index === 0} />
+    ))}
+
+    <Tuner />
+    <Footer />
+  </div>
+</Layout>
+
+<script>
+  import { initInteractivity } from '../scripts/interactive.js';
+  initInteractivity();
+</script>

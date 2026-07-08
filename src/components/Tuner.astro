@@ -1,0 +1,267 @@
+---
+// Componente de afinador de ukelele
+---
+
+<section class="song-panel" id="panel-afinador" data-song="afinador" role="tabpanel" aria-labelledby="tab-afinador" style="--accent: var(--verde-uke); --accent-light: var(--verde-claro);">
+  <div class="song-head">
+    <p class="song-genre">Herramienta</p>
+    <h2 class="song-title">Afinador de Ukelele</h2>
+    <span class="tono-badge">Afinación estándar · G‑C‑E‑A</span>
+  </div>
+
+  <div class="tuner-wrap">
+    <button type="button" class="mic-btn" data-mic-btn>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-mic-icon>
+        <rect x="9" y="2.5" width="6" height="11" rx="3" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="12" y1="18" x2="12" y2="21.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="8" y1="21.5" x2="16" y2="21.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span data-mic-label>Activar micrófono</span>
+    </button>
+    <p class="tuner-note-msg" data-mic-msg>Todo el procesamiento ocurre en tu celular; no se envía audio a ningún servidor. Si el navegador no pide permiso de micrófono, prueba abriendo este archivo con un servidor local o desde HTTPS.</p>
+
+    <div class="tuner-display" data-tuner-display hidden>
+      <div class="tuner-note-name" data-note-name>–</div>
+      <div class="tuner-freq" data-freq>0.0 Hz</div>
+
+      <svg class="tuner-gauge" viewBox="0 0 240 130" data-gauge>
+        <path class="gauge-arc gauge-arc-bg" d="M20,118 A100,100 0 0 1 220,118"></path>
+        <path class="gauge-arc gauge-arc-zone" d="M104,24.5 A100,100 0 0 1 136,24.5"></path>
+        <line class="gauge-tick" x1="120" y1="118" x2="120" y2="26"></line>
+        <line class="gauge-tick gauge-tick-side" x1="35" y1="98" x2="46" y2="83"></line>
+        <line class="gauge-tick gauge-tick-side" x1="205" y1="98" x2="194" y2="83"></line>
+        <g class="gauge-needle" data-needle>
+          <line x1="120" y1="118" x2="120" y2="32"></line>
+        </g>
+        <circle cx="120" cy="118" r="5.5" class="gauge-pivot"></circle>
+      </svg>
+
+      <div class="tuner-status" data-status>—</div>
+      <div class="tuner-cents" data-cents>0 cents</div>
+    </div>
+
+    <div class="tuner-strings">
+      <p class="lib-title">Cuerdas de referencia</p>
+      <p class="lib-hint">La cuerda más cercana a lo que detecta el micrófono se resalta automáticamente.</p>
+      <div class="string-grid" data-string-grid>
+        <div class="string-btn" data-string="G4"><span class="string-note">G</span><span class="string-freq">392.0 Hz</span></div>
+        <div class="string-btn" data-string="C4"><span class="string-note">C</span><span class="string-freq">261.6 Hz</span></div>
+        <div class="string-btn" data-string="E4"><span class="string-note">E</span><span class="string-freq">329.6 Hz</span></div>
+        <div class="string-btn" data-string="A4"><span class="string-note">A</span><span class="string-freq">440.0 Hz</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initTuner } from '../scripts/tuner.js';
+  initTuner();
+</script>
+
+<style>
+  .song-panel {
+    display: none;
+    animation: fadeIn 0.45s ease;
+  }
+  .song-panel.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .song-head {
+    position: relative;
+    padding: 38px 10px 28px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(239, 227, 206, 0.1);
+  }
+
+  .song-genre {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 10px;
+  }
+
+  .song-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(26px, 5vw, 38px);
+    margin: 0 0 14px;
+    color: var(--marfil);
+  }
+
+  .tono-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 5px 16px;
+    background: rgba(239, 227, 206, 0.03);
+  }
+
+  .tuner-wrap {
+    padding: 30px 10px 6px;
+    text-align: center;
+  }
+
+  .mic-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(239, 227, 206, 0.04);
+    border: 1px solid var(--accent);
+    color: var(--accent-light);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14.5px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+  .mic-btn svg { width: 20px; height: 20px; }
+  .mic-btn:hover { background: var(--accent); color: var(--vinilo); }
+  .mic-btn:active { transform: scale(0.97); }
+  .mic-btn.listening { background: var(--accent); color: var(--vinilo); }
+  .mic-btn:focus-visible { outline: 2px solid var(--marfil); outline-offset: 2px; }
+
+  .tuner-note-msg {
+    max-width: 420px;
+    margin: 16px auto 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--marfil-tenue);
+  }
+  .tuner-note-msg.error { color: var(--alerta); }
+
+  .tuner-display { margin-top: 34px; }
+  .tuner-display[hidden] { display: none; }
+
+  .tuner-note-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 56px;
+    color: var(--marfil);
+    line-height: 1;
+    margin-bottom: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .tuner-freq {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--marfil-tenue);
+    margin-bottom: 18px;
+  }
+
+  .tuner-gauge { width: 220px; height: auto; margin: 0 auto; display: block; }
+  .gauge-arc { fill: none; stroke-linecap: round; }
+  .gauge-arc-bg { stroke: rgba(239, 227, 206, 0.12); stroke-width: 3; }
+  .gauge-arc-zone { stroke: var(--verde-uke); stroke-width: 4; }
+  .gauge-tick { stroke: rgba(239, 227, 206, 0.25); stroke-width: 2; }
+  .gauge-tick-side { stroke: rgba(239, 227, 206, 0.4); }
+  .gauge-needle line {
+    stroke: var(--accent-light);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: transform 0.12s ease-out;
+  }
+  .gauge-needle { transform-origin: 120px 118px; transform: rotate(0deg); }
+  .gauge-pivot { fill: var(--marfil); }
+
+  .tuner-status {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    margin-top: 14px;
+    color: var(--marfil-tenue);
+    transition: color 0.2s ease;
+  }
+  .tuner-status.in-tune { color: var(--verde-claro); }
+  .tuner-status.flat { color: var(--oro-claro); }
+  .tuner-status.sharp { color: var(--rosa-claro); }
+
+  .tuner-cents {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--marfil-tenue);
+    margin-top: 4px;
+  }
+
+  .tuner-strings {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(239, 227, 206, 0.1);
+    text-align: left;
+  }
+
+  .lib-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 4px;
+  }
+
+  .lib-hint {
+    font-size: 12.5px;
+    color: var(--marfil-tenue);
+    margin: 0 0 18px;
+  }
+
+  .string-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 10px;
+  }
+
+  .string-btn {
+    background: var(--vino-oscuro);
+    border: 1px solid rgba(239, 227, 206, 0.08);
+    border-radius: 10px;
+    padding: 12px 6px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .string-note {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--marfil);
+  }
+  .string-freq {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--marfil-tenue);
+  }
+  .string-btn.active-string {
+    border-color: var(--accent);
+    box-shadow: 0 0 14px -3px var(--accent);
+    transform: translateY(-2px);
+  }
+  .string-btn.active-string.in-tune {
+    border-color: var(--verde-uke);
+    box-shadow: 0 0 14px -2px var(--verde-uke);
+  }
+  .string-btn.active-string.in-tune .string-note { color: var(--verde-claro); }
+
+  @media (max-width: 480px) {
+    .tuner-gauge { width: 180px; }
+    .tuner-note-name { font-size: 46px; }
+  }
+</style>

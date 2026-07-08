@@ -1,0 +1,92 @@
+---
+import Fretboard from './Fretboard.astro';
+import { chordNotes } from '../data/chords.js';
+
+interface Props {
+  chords: string[];
+}
+
+const { chords } = Astro.props;
+---
+
+<div class="lib-section">
+  <p class="lib-title">Acordes de la canción</p>
+  <p class="lib-hint">Toca un acorde en la letra para verlo resaltado aquí abajo.</p>
+  <div class="chord-grid">
+    {chords.map((chord) => {
+      const note = chordNotes[chord];
+      return (
+        <div class="chord-card" data-chord={chord}>
+          <div class="chord-card-name">{chord}</div>
+          {note && <div class="chord-card-note">{note}</div>}
+          <Fretboard chord={chord} />
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .lib-section {
+    padding: 30px 6px 6px;
+  }
+
+  .lib-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin: 0 0 4px;
+  }
+
+  .lib-hint {
+    font-size: 12.5px;
+    color: var(--marfil-tenue);
+    margin: 0 0 18px;
+  }
+
+  .chord-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .chord-card {
+    background: var(--vino-oscuro);
+    border: 1px solid rgba(239, 227, 206, 0.08);
+    border-radius: 10px;
+    padding: 10px 6px 12px;
+    text-align: center;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .chord-card-name {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--marfil);
+    margin-bottom: 2px;
+  }
+
+  .chord-card-note {
+    font-size: 8.5px;
+    line-height: 1.25;
+    color: var(--marfil-tenue);
+    margin: 0 0 4px;
+    font-style: italic;
+  }
+
+  .chord-card :global(svg) {
+    width: 100%;
+    height: auto;
+    max-width: 78px;
+  }
+
+  .chord-card.pulse {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(239, 227, 206, 0.03), 0 0 18px -2px var(--accent);
+    transform: translateY(-2px);
+  }
+</style>

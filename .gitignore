@@ -1,0 +1,6 @@
+context.xml
+node_modules/
+.astro/
+dist/
+.DS_Store
+index.html.bak
