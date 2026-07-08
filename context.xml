@@ -40,18 +40,17 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
-public/
-  icon-192.png
-  icon-512.png
-  manifest.webmanifest
-  sw.js
+icon-192.png
+icon-512.png
 index.html
+manifest.webmanifest
+sw.js
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
 
-<file path="public/manifest.webmanifest">
+<file path="manifest.webmanifest">
 {
   "name": "Cancionero de Boleros",
   "short_name": "Cancionero",
@@ -61,13 +60,13 @@ This section contains the contents of the repository's files.
   "background_color": "#1B1310",
   "theme_color": "#C9A227",
   "icons": [
-    { "src": "/cancionero/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/cancionero/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
 </file>
 
-<file path="public/sw.js">
+<file path="sw.js">
 const CACHE = 'cancionero-offline-v2';
 const PRECACHE = [
   '/cancionero/',
@@ -874,7 +873,8 @@ self.addEventListener('fetch', event => {
     "E7":  { frets:[1,2,0,2], fingers:[1,2,0,3] },
     "A7":  { frets:[0,1,0,0], fingers:[0,1,0,0] },
     "B":   { frets:[4,3,2,2], fingers:[3,2,1,1] },
-    "G#":  { frets:[1,3,4,3], fingers:[1,2,4,3] }
+    "G#":  { frets:[1,3,4,3], fingers:[1,2,4,3] },
+    "G#m7b5": { frets:[1,3,4,3], fingers:[1,2,4,3] },
   };
 
   // Small clarifying notes shown under a chord name in its card
@@ -1135,6 +1135,20 @@ self.addEventListener('fetch', event => {
           ],
           [
             {chords:["A","C#","F#m"], lyric:"No se puede mirar sin que nos falte,"},
+            {chords:["B","E","G#"], lyric:"La brea, el viento sur, los volantines,"}
+          ],
+          [
+            {chords:["A","C#","F#m"], lyric:"El pescador de jaivas que entristece"},
+            {chords:["B","E","G#"], lyric:"Nuestro paisaje de la costanera."}
+          ]
+        ]},
+        { kind:"section", label:"Verso Gonzalo", stanzas:[
+          [
+            {chords:["C#m","B","E"], lyric:"Mis sueños y esta canción ,"},
+            {chords:["E","G#"], lyric:"Resurgen en Valparaíso "}
+          ],
+          [
+            {chords:["G#m7b5","C#","F#m"], lyric:"Como esperanzas de un día "},
             {chords:["B","E","G#"], lyric:"La brea, el viento sur, los volantines,"}
           ],
           [
@@ -1548,7 +1562,7 @@ self.addEventListener('fetch', event => {
 
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
   }
 </script>
 
