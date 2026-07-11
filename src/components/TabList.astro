@@ -61,6 +61,23 @@
     Flaca
   </button>
 
+  <button class="tab-btn tab-barca" role="tab" aria-selected="false" aria-controls="panel-barca" data-song="barca">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 14h18l-2 5H5l-2-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12 3v11" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M12 4.5l6 6.5h-6V4.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    </svg>
+    La Barca
+  </button>
+
+  <button class="tab-btn tab-contigo" role="tab" aria-selected="false" aria-controls="panel-contigo" data-song="contigo">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="9" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="15" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+    Contigo
+  </button>
+
   <button class="tab-btn tab-afinador" role="tab" aria-selected="false" aria-controls="panel-afinador" data-song="afinador">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -129,6 +146,15 @@
 
   .tab-btn.tab-valparaiso.active { color: var(--azul-claro); border-color: var(--azul-llanto); }
   .tab-btn.tab-valparaiso.active svg { opacity: 1; }
+
+  .tab-btn.tab-flaca.active { color: var(--lila-claro); border-color: var(--lila-nostalgia); }
+  .tab-btn.tab-flaca.active svg { opacity: 1; }
+
+  .tab-btn.tab-barca.active { color: var(--azul-claro); border-color: var(--azul-llanto); }
+  .tab-btn.tab-barca.active svg { opacity: 1; }
+
+  .tab-btn.tab-contigo.active { color: var(--rosa-claro); border-color: var(--rosa-suave); }
+  .tab-btn.tab-contigo.active svg { opacity: 1; }
 
   .tab-btn.tab-afinador.active { color: var(--verde-claro); border-color: var(--verde-uke); }
   .tab-btn.tab-afinador.active svg { opacity: 1; }
