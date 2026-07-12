@@ -112,6 +112,14 @@
     Oh tu fidelidad
   </button>
 
+  <button class="tab-btn tab-asifue" role="tab" aria-selected="false" aria-controls="panel-asifue" data-song="asifue">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 18.5c-3.5-3.5-6-3-9-5 4-1 7 .5 9 2.5 2-2 5-3.5 9-2.5-3 2-5.5 1.5-9 5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12 13.5c-1-3-3.5-6-6-7.5 2 2 3.5 5 4 7.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+    Así fue
+  </button>
+
   <button class="tab-btn tab-afinador" role="tab" aria-selected="false" aria-controls="panel-afinador" data-song="afinador">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -201,6 +209,9 @@
 
   .tab-btn.tab-fidelidad.active { color: var(--verde-claro); border-color: var(--verde-uke); }
   .tab-btn.tab-fidelidad.active svg { opacity: 1; }
+
+  .tab-btn.tab-asifue.active { color: var(--azul-claro); border-color: var(--azul-llanto); }
+  .tab-btn.tab-asifue.active svg { opacity: 1; }
 
   .tab-btn.tab-afinador.active { color: var(--verde-claro); border-color: var(--verde-uke); }
   .tab-btn.tab-afinador.active svg { opacity: 1; }
