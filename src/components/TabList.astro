@@ -103,6 +103,15 @@
     Abrázame muy fuerte
   </button>
 
+  <button class="tab-btn tab-fidelidad" role="tab" aria-selected="false" aria-controls="panel-fidelidad" data-song="fidelidad">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a7 7 0 1 1-7.64-7.64c.44.06.9.1 1.36.1A9 9 0 0 0 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M12 6V4M12 20v-2M6 12H4M20 12h-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    Oh tu fidelidad
+  </button>
+
   <button class="tab-btn tab-afinador" role="tab" aria-selected="false" aria-controls="panel-afinador" data-song="afinador">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -189,6 +198,9 @@
 
   .tab-btn.tab-abrazame.active { color: var(--lila-claro); border-color: var(--lila-nostalgia); }
   .tab-btn.tab-abrazame.active svg { opacity: 1; }
+
+  .tab-btn.tab-fidelidad.active { color: var(--verde-claro); border-color: var(--verde-uke); }
+  .tab-btn.tab-fidelidad.active svg { opacity: 1; }
 
   .tab-btn.tab-afinador.active { color: var(--verde-claro); border-color: var(--verde-uke); }
   .tab-btn.tab-afinador.active svg { opacity: 1; }

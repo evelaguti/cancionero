@@ -27,9 +27,15 @@ export const chordData = {
   "G#m7b5": { frets: [1, 2, 1, 0], fingers: [1, 3, 2, 0] },
   "Em7#5":  { frets: [1, 3, 0, 3], fingers: [1, 2, 0, 3] },
   "Eadd9":  { frets: [1, 4, 2, 2], fingers: [1, 4, 2, 3] },
-  "D7":     { frets: [2, 0, 2, 0], fingers: [1, 0, 2, 0] }
+  "D7":     { frets: [2, 0, 2, 0], fingers: [1, 0, 2, 0] },
+  "B/A":    { frets: [2, 3, 2, 2], fingers: [1, 2, 1, 1] },
+  "E/G#":   { frets: [1, 4, 0, 2], fingers: [1, 4, 0, 2] },
+  "E/B":    { frets: [4, 4, 4, 2], fingers: [3, 4, 2, 1] }
 };
 
 export const chordNotes = {
-  "G/B": "bajo en B · misma forma que G"
+  "G/B": "bajo en B · misma forma que G",
+  "B/A": "bajo en A · misma forma que B7",
+  "E/G#": "bajo en G# · misma forma que E",
+  "E/B": "bajo en B · misma forma que E (cejilla)"
 };

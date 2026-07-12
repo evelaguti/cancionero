@@ -10,6 +10,7 @@ import contigo from './contigo.js';
 import perfidia from './perfidia.js';
 import copa from './copa.js';
 import abrazame from './abrazame.js';
+import fidelidad from './fidelidad.js';
 
 export const songs = [
   reloj,
@@ -23,5 +24,6 @@ export const songs = [
   contigo,
   perfidia,
   copa,
-  abrazame
+  abrazame,
+  fidelidad
 ];
