@@ -78,6 +78,31 @@
     Contigo
   </button>
 
+  <button class="tab-btn tab-perfidia" role="tab" aria-selected="false" aria-controls="panel-perfidia" data-song="perfidia">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M12 5.5l-2 4 4 2.5-3 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Perfidia
+  </button>
+
+  <button class="tab-btn tab-copa" role="tab" aria-selected="false" aria-controls="panel-copa" data-song="copa">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17 3H7c0 0 0 8 5 8s5-8 5-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12 11v8M9 19h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M12 3l-1.5 3.5 2.5 1-2 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    La Copa Rota
+  </button>
+
+  <button class="tab-btn tab-abrazame" role="tab" aria-selected="false" aria-controls="panel-abrazame" data-song="abrazame">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 17.5l-1-.9c-3.2-2.9-5.3-5-5.3-7.6C2.7 6.4 4.8 4.7 7 4.7c1.2 0 2.4.6 3.1 1.5.8-.9 2-1.5 3.2-1.5 2.2 0 4.3 1.7 4.3 4.3 0 2.6-2.1 4.7-5.3 7.6l-1 .9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" opacity="0.65"/>
+      <path d="M15 19.5l-1-.9c-3.2-2.9-5.3-5-5.3-7.6 0-2.6 2.1-4.3 4.3-4.3 1.2 0 2.4.6 3.1 1.5.8-.9 2-1.5 3.2-1.5 2.2 0 4.3 1.7 4.3 4.3 0 2.6-2.1 4.7-5.3 7.6l-1 .9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+    Abrázame muy fuerte
+  </button>
+
   <button class="tab-btn tab-afinador" role="tab" aria-selected="false" aria-controls="panel-afinador" data-song="afinador">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -155,6 +180,15 @@
 
   .tab-btn.tab-contigo.active { color: var(--rosa-claro); border-color: var(--rosa-suave); }
   .tab-btn.tab-contigo.active svg { opacity: 1; }
+
+  .tab-btn.tab-perfidia.active { color: var(--rosa-claro); border-color: var(--rosa-suave); }
+  .tab-btn.tab-perfidia.active svg { opacity: 1; }
+
+  .tab-btn.tab-copa.active { color: var(--oro-claro); border-color: var(--oro-viejo); }
+  .tab-btn.tab-copa.active svg { opacity: 1; }
+
+  .tab-btn.tab-abrazame.active { color: var(--lila-claro); border-color: var(--lila-nostalgia); }
+  .tab-btn.tab-abrazame.active svg { opacity: 1; }
 
   .tab-btn.tab-afinador.active { color: var(--verde-claro); border-color: var(--verde-uke); }
   .tab-btn.tab-afinador.active svg { opacity: 1; }

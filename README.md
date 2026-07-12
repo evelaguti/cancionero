@@ -20,10 +20,10 @@ Asegúrate de estar en el directorio raíz y ejecuta:
 
 | Comando | Acción |
 | :--- | :--- |
-| `npm install` | Instala las dependencias necesarias |
-| `npm run dev` | Inicia el servidor de desarrollo en `http://localhost:4321` |
-| `npm run build` | Compila el sitio para producción en la carpeta `dist/` |
-| `npm run preview` | Previsualiza localmente el sitio compilado |
+| `pnpm install` | Instala las dependencias necesarias |
+| `pnpm run dev` | Inicia el servidor de desarrollo en `http://localhost:4321` |
+| `pnpm run build` | Compila el sitio para producción en la carpeta `dist/` |
+| `pnpm run preview` | Previsualiza localmente el sitio compilado |
 
 ---
 
@@ -47,7 +47,7 @@ El proyecto incluye un flujo de trabajo automatizado en `.github/workflows/deplo
      git commit -m "feat: descripción de tus cambios"
      git push origin main
      ```
-   - GitHub ejecutará automáticamente la compilación (`npm run build`) y publicará el sitio en `https://evelaguti.github.io/cancionero/`.
+   - GitHub ejecutará automáticamente la compilación (`pnpm run build`) y publicará el sitio en `https://evelaguti.github.io/cancionero/`.
 
 ### Método Manual (Alternativa Local)
 
@@ -56,12 +56,12 @@ Si prefieres compilar y subir los archivos de forma manual:
 1. **Generar la compilación:**
    - Ejecuta localmente en tu terminal:
      ```sh
-     npm run build
+     pnpm run build
      ```
    - Esto generará los archivos finales optimizados dentro del directorio `/dist`.
 
 2. **Publicar la carpeta `dist`:**
    - Puedes subir el contenido de la carpeta `/dist` directamente a una rama dedicada como `gh-pages` en tu repositorio de GitHub, o utilizar utilidades como el paquete `gh-pages` de npm para automatizar la subida de ese directorio específico:
      ```sh
-     npx gh-pages -d dist
+     pnpm dlx gh-pages -d dist
      ```

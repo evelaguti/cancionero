@@ -7,6 +7,9 @@ import valparaiso from './valparaiso.js';
 import flaca from './flaca.js';
 import barca from './barca.js';
 import contigo from './contigo.js';
+import perfidia from './perfidia.js';
+import copa from './copa.js';
+import abrazame from './abrazame.js';
 
 export const songs = [
   reloj,
@@ -17,5 +20,8 @@ export const songs = [
   valparaiso,
   flaca,
   barca,
-  contigo
+  contigo,
+  perfidia,
+  copa,
+  abrazame
 ];

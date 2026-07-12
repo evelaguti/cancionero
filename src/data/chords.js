@@ -25,7 +25,9 @@ export const chordData = {
   "C7":  { frets: [0, 0, 0, 1], fingers: [0, 0, 0, 1] },
   "Fm":  { frets: [1, 0, 1, 3], fingers: [1, 0, 2, 4] },
   "G#m7b5": { frets: [1, 2, 1, 0], fingers: [1, 3, 2, 0] },
-  "Em7#5":  { frets: [1, 3, 0, 3], fingers: [1, 2, 0, 3] }
+  "Em7#5":  { frets: [1, 3, 0, 3], fingers: [1, 2, 0, 3] },
+  "Eadd9":  { frets: [1, 4, 2, 2], fingers: [1, 4, 2, 3] },
+  "D7":     { frets: [2, 0, 2, 0], fingers: [1, 0, 2, 0] }
 };
 
 export const chordNotes = {
