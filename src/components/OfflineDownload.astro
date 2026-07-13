@@ -1,0 +1,274 @@
+---
+// Componente para descargar la versión offline (PWA)
+---
+
+<div class="offline-container">
+  <button id="install-pwa-btn" class="install-btn" aria-label="Descargar versión offline">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="14" height="14" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+      <path d="M7 11l5 5l5 -5" />
+      <path d="M12 4l0 12" />
+    </svg>
+    <span>Descargar versión offline</span>
+  </button>
+
+  <div id="pwa-modal" class="pwa-modal" aria-hidden="true">
+    <div class="pwa-modal-overlay"></div>
+    <div class="pwa-modal-card">
+      <button id="pwa-modal-close" class="close-btn" aria-label="Cerrar modal">&times;</button>
+      
+      <div id="pwa-content-installed" class="pwa-content hidden">
+        <h3 class="modal-title">¡Modo offline listo!</h3>
+        <p class="modal-desc">Ya tienes instalada la aplicación en tu dispositivo.</p>
+        <div class="tip-box">
+          <p>Puedes acceder al cancionero desde la pantalla de inicio, incluso sin conexión a Internet.</p>
+        </div>
+      </div>
+
+      <div id="pwa-content-ios" class="pwa-content hidden">
+        <h3 class="modal-title">Instalar en iOS (Safari)</h3>
+        <p class="modal-desc">Guarda el cancionero en tu pantalla de inicio para usarlo offline:</p>
+        <ol class="steps-list">
+          <li>
+            <span>1</span>
+            <div>Toca el botón **Compartir** <svg class="inline-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M12 2v9M8 5l4-4 4 4"></path></svg> en Safari.</div>
+          </li>
+          <li>
+            <span>2</span>
+            <div>Selecciona **"Agregar a inicio"** (o "Add to Home Screen").</div>
+          </li>
+          <li>
+            <span>3</span>
+            <div>Presiona **"Agregar"** arriba a la derecha.</div>
+          </li>
+        </ol>
+      </div>
+
+      <div id="pwa-content-generic" class="pwa-content hidden">
+        <h3 class="modal-title">Descargar versión offline</h3>
+        <p class="modal-desc">Instala la aplicación en tu dispositivo para usarla sin conexión:</p>
+        <ol class="steps-list">
+          <li>
+            <span>1</span>
+            <div>Abre el menú de opciones del navegador (icono de tres puntos **⋮**).</div>
+          </li>
+          <li>
+            <span>2</span>
+            <div>Selecciona **"Instalar aplicación"** o **"Agregar a pantalla principal"**.</div>
+          </li>
+          <li>
+            <span>3</span>
+            <div>Confirma la instalación y abre la app desde tu inicio.</div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .offline-container {
+    display: flex;
+    justify-content: center;
+    margin: 14px 0 0;
+  }
+  .install-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    color: var(--marfil-tenue);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.25s ease, background-color 0.25s ease;
+  }
+  .install-btn:hover {
+    color: var(--oro-claro);
+    background: rgba(239, 227, 206, 0.05);
+  }
+  .pwa-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .pwa-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pwa-modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(12, 8, 7, 0.75);
+    backdrop-filter: blur(6px);
+  }
+  .pwa-modal-card {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    background: linear-gradient(135deg, var(--vino-oscuro), var(--vinilo));
+    border: 1px solid rgba(239, 227, 206, 0.12);
+    border-radius: 16px;
+    padding: 28px 24px;
+    color: var(--marfil);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.25s ease;
+    z-index: 1001;
+  }
+  .pwa-modal.open .pwa-modal-card {
+    transform: scale(1) translateY(0);
+  }
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    color: var(--marfil-tenue);
+    font-size: 26px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .close-btn:hover { color: var(--marfil); }
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    margin: 0 0 8px;
+    color: var(--oro-claro);
+  }
+  .modal-desc {
+    font-size: 13.5px;
+    color: var(--marfil-tenue);
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  .steps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .steps-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+  .steps-list li span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--oro-viejo);
+    color: var(--vinilo);
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  .tip-box {
+    background: rgba(239, 227, 206, 0.04);
+    border-left: 3px solid var(--oro-viejo);
+    padding: 12px 14px;
+    border-radius: 4px;
+  }
+  .tip-box p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--marfil-tenue); }
+  .inline-icon { display: inline-block; vertical-align: middle; color: var(--oro-claro); }
+  .hidden { display: none !important; }
+</style>
+
+<script>
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  const installBtn = document.getElementById('install-pwa-btn');
+  const modal = document.getElementById('pwa-modal');
+  const closeBtn = document.getElementById('pwa-modal-close');
+  const overlay = modal?.querySelector('.pwa-modal-overlay');
+
+  const contentInstalled = document.getElementById('pwa-content-installed');
+  const contentIos = document.getElementById('pwa-content-ios');
+  const contentGeneric = document.getElementById('pwa-content-generic');
+
+  function openModal() {
+    if (!modal) return;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+    const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    contentInstalled?.classList.add('hidden');
+    contentIos?.classList.add('hidden');
+    contentGeneric?.classList.add('hidden');
+
+    if (isStandalone) {
+      contentInstalled?.classList.remove('hidden');
+    } else if (isiOS) {
+      contentIos?.classList.remove('hidden');
+    } else {
+      contentGeneric?.classList.remove('hidden');
+    }
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  installBtn?.addEventListener('click', () => {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+    if (isStandalone) {
+      openModal();
+    } else if (deferredPrompt) {
+      (deferredPrompt as any).prompt();
+      (deferredPrompt as any).userChoice.then((choiceResult: { outcome: string }) => {
+        if (choiceResult.outcome === 'accepted') {
+          deferredPrompt = null;
+        }
+      });
+    } else {
+      openModal();
+    }
+  });
+
+  closeBtn?.addEventListener('click', closeModal);
+  overlay?.addEventListener('click', closeModal);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('open')) {
+      closeModal();
+    }
+  });
+</script>
