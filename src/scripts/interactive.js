@@ -20,6 +20,9 @@ export function initInteractivity() {
   const panels = document.querySelectorAll(".song-panel");
   tabs.forEach(function(tab) {
     tab.addEventListener("click", function() {
+      // Pause auto-scroll when switching tabs
+      stopAllAutoScroll();
+
       tabs.forEach(function(t) {
         t.classList.remove("active");
         t.setAttribute("aria-selected", "false");
@@ -49,5 +52,159 @@ export function initInteractivity() {
     card._pulseTimer = setTimeout(function() {
       card.classList.remove("pulse");
     }, 1400);
+  });
+
+  /* ---------------- KARAOKE AUTO-SCROLL ---------------- */
+  let scrollAnimationFrameId = null;
+  let scrollIsPlaying = false;
+  let scrollLastTime = 0;
+  let scrollAccumulator = 0;
+
+  function getActiveControls() {
+    const activePanel = document.querySelector(".song-panel.active");
+    if (!activePanel) return null;
+
+    const controls = activePanel.querySelector(".karaoke-controls");
+    if (!controls) return null;
+
+    return {
+      panel: activePanel,
+      controls: controls,
+      playPauseBtn: controls.querySelector(".play-pause-btn"),
+      playIcon: controls.querySelector(".play-icon"),
+      pauseIcon: controls.querySelector(".pause-icon"),
+      stopBtn: controls.querySelector(".stop-btn"),
+      slider: controls.querySelector(".speed-slider"),
+      display: controls.querySelector(".speed-display"),
+      baseSpeed: parseFloat(controls.getAttribute("data-base-speed") || "20"),
+      songId: controls.getAttribute("data-song-id")
+    };
+  }
+
+  function stopAllAutoScroll() {
+    if (scrollAnimationFrameId) {
+      cancelAnimationFrame(scrollAnimationFrameId);
+      scrollAnimationFrameId = null;
+    }
+    scrollIsPlaying = false;
+    scrollLastTime = 0;
+    scrollAccumulator = 0;
+
+    // Reset all play buttons visually
+    document.querySelectorAll(".karaoke-controls").forEach(function(ctrl) {
+      const playIcon = ctrl.querySelector(".play-icon");
+      const pauseIcon = ctrl.querySelector(".pause-icon");
+      const playPauseBtn = ctrl.querySelector(".play-pause-btn");
+      if (playIcon) playIcon.style.display = "block";
+      if (pauseIcon) pauseIcon.style.display = "none";
+      if (playPauseBtn) playPauseBtn.setAttribute("aria-label", "Reproducir desplazamiento automático");
+    });
+  }
+
+  function startAutoScroll() {
+    const active = getActiveControls();
+    if (!active) return;
+
+    stopAllAutoScroll(); // Clear any existing loop first
+
+    scrollIsPlaying = true;
+    scrollLastTime = 0;
+
+    active.playIcon.style.display = "none";
+    active.pauseIcon.style.display = "block";
+    active.playPauseBtn.setAttribute("aria-label", "Pausar desplazamiento automático");
+
+    function scrollStep(time) {
+      if (!scrollIsPlaying) return;
+
+      const currentActive = getActiveControls();
+      if (!currentActive || currentActive.songId !== active.songId) {
+        stopAllAutoScroll();
+        return;
+      }
+
+      if (!scrollLastTime) {
+        scrollLastTime = time;
+        scrollAnimationFrameId = requestAnimationFrame(scrollStep);
+        return;
+      }
+
+      const dt = (time - scrollLastTime) / 1000;
+      scrollLastTime = time;
+
+      // Prevent sudden jumps (e.g. if the tab went to the background)
+      if (dt > 0.1) {
+        scrollAnimationFrameId = requestAnimationFrame(scrollStep);
+        return;
+      }
+
+      const multiplier = parseFloat(currentActive.slider.value || "1.0");
+      const speed = currentActive.baseSpeed * multiplier;
+
+      scrollAccumulator += speed * dt;
+      if (scrollAccumulator >= 1) {
+        const scrollPx = Math.floor(scrollAccumulator);
+        scrollAccumulator -= scrollPx;
+        window.scrollBy(0, scrollPx);
+      }
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (window.scrollY >= maxScroll - 1) {
+        stopAllAutoScroll();
+      } else {
+        scrollAnimationFrameId = requestAnimationFrame(scrollStep);
+      }
+    }
+
+    scrollAnimationFrameId = requestAnimationFrame(scrollStep);
+  }
+
+  function pauseAutoScroll() {
+    stopAllAutoScroll();
+  }
+
+  // Initialize event listeners on all panels' controls
+  document.querySelectorAll(".karaoke-controls").forEach(function(controls) {
+    const playPauseBtn = controls.querySelector(".play-pause-btn");
+    const stopBtn = controls.querySelector(".stop-btn");
+    const slider = controls.querySelector(".speed-slider");
+    const display = controls.querySelector(".speed-display");
+    const panel = controls.closest(".song-panel");
+
+    if (playPauseBtn) {
+      playPauseBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        if (scrollIsPlaying) {
+          if (panel.classList.contains("active")) {
+            pauseAutoScroll();
+          }
+        } else {
+          if (panel.classList.contains("active")) {
+            startAutoScroll();
+          }
+        }
+      });
+    }
+
+    if (stopBtn) {
+      stopBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        pauseAutoScroll();
+
+        // Scroll back to the top of this song panel
+        const offset = panel.offsetTop - 16;
+        window.scrollTo({
+          top: Math.max(0, offset),
+          behavior: "smooth"
+        });
+      });
+    }
+
+    if (slider && display) {
+      slider.addEventListener("input", function() {
+        const val = parseFloat(slider.value).toFixed(1);
+        display.textContent = val + "x";
+      });
+    }
   });
 }

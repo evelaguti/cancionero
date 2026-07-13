@@ -21,6 +21,27 @@ const accents = {
   contigo: { accent: "var(--rosa-suave)", accentLight: "var(--rosa-claro)" },
   quierodormircansado: { accent: "var(--lila-nostalgia)", accentLight: "var(--lila-claro)" },
 }[song.id] || { accent: "var(--oro-viejo)", accentLight: "var(--oro-claro)" };
+
+const defaultSpeeds = {
+  reloj: 18,
+  llorando: 19,
+  tratame: 22,
+  ayer: 18,
+  amor: 20,
+  valparaiso: 24,
+  flaca: 28,
+  barca: 18,
+  contigo: 19,
+  perfidia: 22,
+  copa: 20,
+  abrazame: 22,
+  fidelidad: 18,
+  asifue: 22,
+  almacorazon: 20,
+  quierodormircansado: 22
+};
+
+const songSpeed = song.scrollSpeed || defaultSpeeds[song.id] || 20;
 ---
 
 <section 
@@ -54,6 +75,41 @@ const accents = {
   </div>
 
   <ChordLibrary chords={song.chordsUsed} />
+
+  <!-- Karaoke Controls -->
+  <div class="karaoke-controls" data-song-id={song.id} data-base-speed={songSpeed}>
+    <div class="player-buttons">
+      <button type="button" class="karaoke-btn play-pause-btn" aria-label="Reproducir desplazamiento automático" title="Reproducir">
+        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+      </button>
+      
+      <button type="button" class="karaoke-btn stop-btn" aria-label="Detener y reiniciar" title="Detener">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 6h12v12H6z"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="speed-container">
+      <span class="speed-label">Velocidad:</span>
+      <input 
+        type="range" 
+        min="0.5" 
+        max="2.5" 
+        step="0.1" 
+        value="1.0" 
+        class="speed-slider" 
+        aria-label="Ajustar velocidad de desplazamiento"
+      />
+      <span class="speed-display">1.0x</span>
+    </div>
+  </div>
+
   <LyricSheet blocks={song.blocks} />
 </section>
 
@@ -166,5 +222,165 @@ const accents = {
 
   @media (max-width: 480px) {
     .clock-motif { width: 42px; height: 42px; top: 12px; right: 14px; }
+  }
+
+  /* Karaoke controls inline player */
+  .karaoke-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: rgba(239, 227, 206, 0.03);
+    border: 1px solid rgba(239, 227, 206, 0.08);
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin: 28px 0 10px;
+    box-shadow: inset 0 1px 2px rgba(239, 227, 206, 0.02);
+  }
+
+  .player-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .karaoke-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--marfil);
+    transition: all 0.2s ease;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .karaoke-btn:hover {
+    color: var(--accent-light);
+    transform: scale(1.05);
+  }
+
+  .karaoke-btn:active {
+    transform: scale(0.95);
+  }
+
+  .play-pause-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--vinilo);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .play-pause-btn:hover {
+    background: var(--accent-light);
+    color: var(--vinilo);
+    box-shadow: 0 0 10px var(--accent);
+  }
+
+  .play-pause-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .stop-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(239, 227, 206, 0.2);
+    background: rgba(239, 227, 206, 0.03);
+    color: var(--marfil-tenue);
+  }
+
+  .stop-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    background: rgba(239, 227, 206, 0.08);
+  }
+
+  .stop-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .speed-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    max-width: 260px;
+  }
+
+  .speed-label {
+    font-size: 12px;
+    color: var(--marfil-tenue);
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+
+  .speed-slider {
+    flex-grow: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(239, 227, 206, 0.15);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .speed-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .speed-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.25);
+    background: var(--accent-light);
+  }
+
+  .speed-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+    cursor: pointer;
+  }
+
+  .speed-slider::-moz-range-thumb:hover {
+    transform: scale(1.25);
+    background: var(--accent-light);
+  }
+
+  .speed-display {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--marfil-tenue);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  @media (max-width: 520px) {
+    .karaoke-controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+      padding: 12px 14px;
+    }
+    .speed-container {
+      max-width: none;
+      border-top: 1px solid rgba(239, 227, 206, 0.08);
+      padding-top: 10px;
+    }
   }
 </style>
