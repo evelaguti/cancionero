@@ -30,7 +30,11 @@ export const chordData = {
   "D7":     { frets: [2, 0, 2, 0], fingers: [1, 0, 2, 0] },
   "B/A":    { frets: [2, 3, 2, 2], fingers: [1, 2, 1, 1] },
   "E/G#":   { frets: [1, 4, 0, 2], fingers: [1, 4, 0, 2] },
-  "E/B":    { frets: [4, 4, 4, 2], fingers: [3, 4, 2, 1] }
+  "E/B":    { frets: [4, 4, 4, 2], fingers: [3, 4, 2, 1] },
+  "Gm7":    { frets: [0, 2, 1, 1], fingers: [0, 2, 1, 1] },
+  "A#":     { frets: [3, 2, 1, 1], fingers: [3, 2, 1, 1] },
+  "Em7(5-)": { frets: [0, 2, 0, 1], fingers: [0, 2, 0, 1] },
+  "A#7M":   { frets: [3, 2, 1, 0], fingers: [3, 2, 1, 0] }
 };
 
 export const chordNotes = {

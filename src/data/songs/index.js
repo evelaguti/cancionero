@@ -13,6 +13,7 @@ import abrazame from './abrazame.js';
 import fidelidad from './fidelidad.js';
 import asifue from './asifue.js';
 import almacorazon from './almacorazon.js';
+import quierodormircansado from './quierodormircansado.js';
 
 export const songs = [
   reloj,
@@ -29,5 +30,6 @@ export const songs = [
   abrazame,
   fidelidad,
   asifue,
-  almacorazon
+  almacorazon,
+  quierodormircansado
 ];
