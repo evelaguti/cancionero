@@ -203,7 +203,26 @@
 <script>
   let deferredPrompt = null;
 
+  // Ocultar botón si ya se está usando la versión offline (standalone)
+  const checkOfflineMode = () => {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+    if (isStandalone) {
+      document.querySelector('.offline-container')?.classList.add('hidden');
+    }
+  };
+
+  // Ejecutar al cargar
+  checkOfflineMode();
+
+  window.addEventListener('appinstalled', () => {
+    document.querySelector('.offline-container')?.classList.add('hidden');
+    deferredPrompt = null;
+  });
+
   window.addEventListener('beforeinstallprompt', (e) => {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+    if (isStandalone) return;
+    
     e.preventDefault();
     deferredPrompt = e;
   });
