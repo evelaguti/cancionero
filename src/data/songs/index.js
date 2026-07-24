@@ -14,6 +14,12 @@ import fidelidad from './fidelidad.js';
 import asifue from './asifue.js';
 import almacorazon from './almacorazon.js';
 import quierodormircansado from './quierodormircansado.js';
+import lajoyadelpacifico from './lajoyadelpacifico.js';
+import corazondelator from './corazondelator.js';
+import demusicaligera from './demusicaligera.js';
+import persianaamericana from './persianaamericana.js';
+import signos from './signos.js';
+import nadapersonal from './nadapersonal.js';
 
 export const songs = [
   reloj,
@@ -31,5 +37,11 @@ export const songs = [
   fidelidad,
   asifue,
   almacorazon,
-  quierodormircansado
+  quierodormircansado,
+  lajoyadelpacifico,
+  corazondelator,
+  demusicaligera,
+  persianaamericana,
+  signos,
+  nadapersonal
 ];

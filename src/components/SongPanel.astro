@@ -20,6 +20,12 @@ const accents = {
   barca: { accent: "var(--azul-llanto)", accentLight: "var(--azul-claro)" },
   contigo: { accent: "var(--rosa-suave)", accentLight: "var(--rosa-claro)" },
   quierodormircansado: { accent: "var(--lila-nostalgia)", accentLight: "var(--lila-claro)" },
+  lajoyadelpacifico: { accent: "var(--azul-llanto)", accentLight: "var(--azul-claro)" },
+  corazondelator: { accent: "var(--rosa-suave)", accentLight: "var(--rosa-claro)" },
+  demusicaligera: { accent: "var(--oro-viejo)", accentLight: "var(--oro-claro)" },
+  persianaamericana: { accent: "var(--azul-llanto)", accentLight: "var(--azul-claro)" },
+  signos: { accent: "var(--lila-nostalgia)", accentLight: "var(--lila-claro)" },
+  nadapersonal: { accent: "var(--rosa-suave)", accentLight: "var(--rosa-claro)" },
 }[song.id] || { accent: "var(--oro-viejo)", accentLight: "var(--oro-claro)" };
 
 const defaultSpeeds = {
@@ -38,7 +44,13 @@ const defaultSpeeds = {
   fidelidad: 18,
   asifue: 22,
   almacorazon: 20,
-  quierodormircansado: 22
+  quierodormircansado: 22,
+  lajoyadelpacifico: 22,
+  corazondelator: 22,
+  demusicaligera: 24,
+  persianaamericana: 24,
+  signos: 22,
+  nadapersonal: 24
 };
 
 const songSpeed = song.scrollSpeed || defaultSpeeds[song.id] || 20;

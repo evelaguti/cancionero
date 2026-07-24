@@ -34,12 +34,26 @@ export const chordData = {
   "Gm7":    { frets: [0, 2, 1, 1], fingers: [0, 2, 1, 1] },
   "A#":     { frets: [3, 2, 1, 1], fingers: [3, 2, 1, 1] },
   "Em7(5-)": { frets: [0, 2, 0, 1], fingers: [0, 2, 0, 1] },
-  "A#7M":   { frets: [3, 2, 1, 0], fingers: [3, 2, 1, 0] }
+  "A#7M":   { frets: [3, 2, 1, 0], fingers: [3, 2, 1, 0] },
+  "Gm":     { frets: [0, 2, 3, 1], fingers: [0, 2, 3, 1] },
+  "D#":     { frets: [0, 3, 3, 1], fingers: [0, 2, 3, 1] },
+  "Cm":     { frets: [0, 3, 3, 3], fingers: [0, 1, 1, 1] },
+  "C7M":    { frets: [0, 0, 0, 2], fingers: [0, 0, 0, 1] },
+  "Bm7":    { frets: [2, 2, 2, 2], fingers: [1, 1, 1, 1] },
+  "B7(4)":  { frets: [2, 4, 2, 2], fingers: [1, 3, 1, 1] },
+  "D/C":    { frets: [2, 2, 2, 3], fingers: [1, 1, 1, 2] },
+  "Bb":     { frets: [3, 2, 1, 1], fingers: [3, 2, 1, 1] },
+  "G/A":    { frets: [0, 2, 3, 0], fingers: [0, 1, 2, 0] },
+  "G4":     { frets: [0, 2, 3, 3], fingers: [0, 1, 2, 3] },
+  "Gsus4":  { frets: [0, 2, 3, 3], fingers: [0, 1, 2, 3] },
+  "G#m":    { frets: [4, 3, 4, 2], fingers: [3, 2, 4, 1] },
+  "F#":     { frets: [3, 1, 2, 1], fingers: [3, 1, 2, 1] }
 };
 
 export const chordNotes = {
   "G/B": "bajo en B · misma forma que G",
   "B/A": "bajo en A · misma forma que B7",
   "E/G#": "bajo en G# · misma forma que E",
-  "E/B": "bajo en B · misma forma que E (cejilla)"
+  "E/B": "bajo en B · misma forma que E (cejilla)",
+  "D/C": "bajo en C · acorde D7 con bajo C"
 };
